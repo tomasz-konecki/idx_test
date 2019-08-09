@@ -1,0 +1,16 @@
+.img-container {
+  width: 100%;
+  height: 86vh;
+  background-color: #eaeaea;
+  padding-top: 200px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 96px;
+  color: #0d7bc0;
+  /* background: -webkit-linear-gradient(#0d7bc0, #1cb3e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+  /* background-image: linear-gradient(180deg, #0d7bc0, #1cb3e9); */
+}

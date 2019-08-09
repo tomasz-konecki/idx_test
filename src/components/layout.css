@@ -200,7 +200,7 @@ html {
 }
 body {
   color: hsla(0, 0%, 0%, 0.8);
-  font-family: georgia, serif;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-weight: normal;
   word-wrap: break-word;
   font-kerning: normal;
@@ -619,4 +619,24 @@ pre tt:after {
   html {
     font-size: 100%;
   }
+}
+
+.idx-gradient {
+  background-image: linear-gradient(180deg, #0d7bc0, #1cb3e9);
+}
+
+.login-btn {
+  background: transparent;
+  color: #fff;
+  outline: none;
+  border: 1.3px solid;
+  width: 90px;
+  padding: 0.4rem 0;
+  border-radius: 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+.login-btn:hover {
+  cursor: pointer;
+  background: #0078c1;
 }
