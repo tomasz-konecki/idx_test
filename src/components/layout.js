@@ -11,6 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
+import strip from "../images/footer-strip.png"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -32,11 +33,11 @@ const Layout = ({ children }) => {
           maxWidth: 1920,
         }}
       >
-        <main>{children}</main>
+        <main style={{ height: `81vh` }}>{children}</main>
         <footer>
-          {/* © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a> */}
+          <div style={{ width: `100%`, height: `30px` }}>
+            <img src={strip} alt="" style={{ height: `100%`, width: `100%` }} />
+          </div>
         </footer>
       </div>
     </>

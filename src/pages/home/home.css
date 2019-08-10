@@ -1,16 +1,31 @@
-.img-container {
+.home-container {
   width: 100%;
-  height: 86vh;
+  height: 81vh;
   background-color: #eaeaea;
   padding-top: 200px;
 }
 
-h1 {
-  text-align: center;
+.idx-title-container {
+  display: flex;
+  justify-content: space-between;
+  width: 22%;
+  margin: 0 auto;
+  /* border: 1px dotted blue; */
+}
+
+h1.idx-title {
+  /* text-align: center; */
   font-size: 96px;
   color: #0d7bc0;
-  /* background: -webkit-linear-gradient(#0d7bc0, #1cb3e9);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; */
-  /* background-image: linear-gradient(180deg, #0d7bc0, #1cb3e9); */
+  color: #bcbcbc;
+  text-shadow: 2px 2px 5px #555;
+  /* border: 1px dotted red; */
+}
+
+.parallelogram {
+  width: 150px;
+  height: 70px;
+  transform: skew(-35deg);
+  background-image: linear-gradient(180deg, #0d7bc0, #1cb3e9);
+  margin-top: 25px;
 }

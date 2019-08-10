@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import Layout from "../../components/layout"
+import SEO from "../../components/seo"
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -21,10 +22,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    marginTop: theme.spacing(0),
+    display: `flex`,
+    flexDirection: `column`,
+    alignItems: `center`,
+    paddingTop: `60px`,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -49,6 +51,7 @@ export default function LogIn() {
 
   return (
     <Layout>
+      <SEO title="Login" />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -84,10 +87,10 @@ export default function LogIn() {
                 setPassword(e.target.value)
               }}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="button"
               fullWidth
@@ -98,7 +101,7 @@ export default function LogIn() {
             >
               Sign In
             </Button>
-            <Grid container>
+            {/* <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
@@ -109,7 +112,7 @@ export default function LogIn() {
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
-            </Grid>
+            </Grid> */}
           </form>
         </div>
       </Container>
