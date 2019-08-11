@@ -11,7 +11,7 @@ const Header = ({ siteTitle }) => (
         maxWidth: "92%",
         padding: `1.45rem 1.0875rem 0.8rem`,
         display: "flex",
-        justifyContent: `space-between`,
+        justifyContent: `space-between`
       }}
     >
       <div style={{ width: `9.4rem`, height: `3.1rem` }}>
@@ -22,16 +22,25 @@ const Header = ({ siteTitle }) => (
           to="/"
           style={{
             color: `white`,
-            textDecoration: `none`,
+            textDecoration: `none`
           }}
-        >
-          {/* {siteTitle} */}
-        </Link>
+        ></Link>
       </h1>
       <div>
-        <Link to="/auth/login">
-          <button className="login-btn">Log in</button>
-        </Link>
+        {localStorage.getItem("jwt-token") ? (
+          <Link to="/">
+            <button
+              className="login-btn"
+              onCLick={() => localStorage.removeItem("jwt-token")}
+            >
+              Log out
+            </button>
+          </Link>
+        ) : (
+          <Link to="/auth/login">
+            <button className="login-btn">Log in</button>
+          </Link>
+        )}
       </div>
     </div>
     <div className="idx-gradient" style={{ height: `10px` }}></div>
@@ -39,11 +48,11 @@ const Header = ({ siteTitle }) => (
 )
 
 Header.propTypes = {
-  siteTitle: PropTypes.string,
+  siteTitle: PropTypes.string
 }
 
 Header.defaultProps = {
-  siteTitle: ``,
+  siteTitle: ``
 }
 
 export default Header
