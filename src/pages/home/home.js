@@ -10,7 +10,7 @@ export default function Home() {
       <div className="home-container">
         <div className="idx-title-container">
           <div className="parallelogram" />
-          <h1 class="idx-title">IDX</h1>
+          <h1 className="idx-title">IDX</h1>
         </div>
       </div>
     </Layout>

@@ -13,40 +13,59 @@ import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
+import axios from "axios"
 
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
       // backgroundColor: theme.palette.common.white,
-      backgroundColor: `#eaeaea`,
-    },
+      backgroundColor: `#eaeaea`
+    }
   },
   paper: {
     marginTop: theme.spacing(0),
     display: `flex`,
     flexDirection: `column`,
     alignItems: `center`,
-    paddingTop: `60px`,
+    paddingTop: `60px`
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 }))
 
 export default function LogIn() {
-  const [email, setEmail] = useState("")
+  const [username, setUserName] = useState("")
   const [password, setPassword] = useState("")
 
   const classes = useStyles()
 
   const validate = e => {
     e.preventDefault()
-    console.log("email:", email)
-    console.log("password:", password)
+
+    if (!username) alert("Enter username")
+    if (!password) alert("Enter password")
+
+    if (username && password) submit(username, password)
+  }
+
+  const submit = async (username, password) => {
+    try {
+      const res = await axios.post("http://localhost:3000/login", {
+        username,
+        password
+      })
+      const { token } = res.data
+      localStorage.setItem("jwt-token", token)
+
+      console.log(localStorage.getItem("jwt-token"))
+    } catch (err) {
+      throw err
+    }
   }
 
   return (
@@ -58,20 +77,18 @@ export default function LogIn() {
           <Typography component="h1" variant="h5" style={{ color: `#000` }}>
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="User name"
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={e => {
-                setEmail(e.target.value)
-              }}
+              onChange={e => setUserName(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -83,9 +100,7 @@ export default function LogIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={e => {
-                setPassword(e.target.value)
-              }}
+              onChange={e => setPassword(e.target.value)}
             />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
