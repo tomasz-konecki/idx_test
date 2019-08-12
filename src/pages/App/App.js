@@ -5,7 +5,7 @@ import { withRouter } from "react-router"
 import LoginPage from "../auth/login"
 import Home from "../home/home"
 import AuthenticatedComponent from "../AuthenticatedComponent"
-import Protected from "../mainscreen/interface"
+import Protected from "../mainscreen/dashboard"
 
 class App extends Component {
   componentWillMount() {
@@ -23,7 +23,7 @@ class App extends Component {
             path="/auth/login"
             render={props => <LoginPage {...props} />}
           />
-          <Route path="/mainscreen/interface" component={Protected} />
+          <Route path="/mainscreen/dashboard" component={Protected} />
         </Switch>
       </BrowserRouter>
     )

@@ -64,7 +64,7 @@ export function LogIn(props) {
     localStorage.setItem("jwt-token", token)
     console.log(localStorage.getItem("jwt-token"))
     console.log("Login component PROPS:", props)
-    props.navigate("/mainscreen/interface")
+    props.navigate("/mainscreen/dashboard")
   }
 
   return (
