@@ -11,7 +11,7 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
-import strip from "../images/footer-strip.png"
+import stripe from "../../images/footer-stripe.png"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -30,13 +30,17 @@ const Layout = ({ children }) => {
       <div
         style={{
           margin: `0 auto`,
-          maxWidth: 1920,
+          maxWidth: 1920
         }}
       >
         <main style={{ height: `81vh` }}>{children}</main>
         <footer>
           <div style={{ width: `100%`, height: `30px` }}>
-            <img src={strip} alt="" style={{ height: `100%`, width: `100%` }} />
+            <img
+              src={stripe}
+              alt=""
+              style={{ height: `100%`, width: `100%` }}
+            />
           </div>
         </footer>
       </div>
@@ -45,7 +49,7 @@ const Layout = ({ children }) => {
 }
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 }
 
 export default Layout

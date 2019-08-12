@@ -1,7 +1,7 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
-import logo from "../images/intevi-logo.png"
+import logo from "../../images/intevi-logo.png"
 
 const Header = ({ siteTitle }) => (
   <header className="idx-gradient" style={{ background: `#000` }}>
@@ -31,7 +31,7 @@ const Header = ({ siteTitle }) => (
           <Link to="/">
             <button
               className="login-btn"
-              onCLick={() => localStorage.removeItem("jwt-token")}
+              onClick={() => localStorage.removeItem("jwt-token")}
             >
               Log out
             </button>

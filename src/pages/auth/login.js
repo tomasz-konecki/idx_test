@@ -11,10 +11,10 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import Layout from "../../components/layout"
-import SEO from "../../components/seo"
+import Layout from "../../components/layout/layout"
+import SEO from "../../components/layout/seo"
 import axios from "axios"
-import { withRouter } from "react-router"
+// import { withRouter } from "react-router"
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -55,7 +55,7 @@ export function LogIn(props) {
   }
 
   const submit = async (username, password) => {
-    const res = await axios.post("http://localhost:3000/login", {
+    const res = await axios.post("http://localhost:5000/login", {
       username,
       password
     })
