@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import { BrowserRouter, Switch, Route } from "react-router-dom"
-// import { withRouter } from "react-router"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import PrivateRoute from "../../components/authenticated/PrivateRoute"
 
 import LoginPage from "../auth/login"
 import Home from "../home/home"
@@ -14,49 +14,67 @@ import AssignChannelsToGroups from "../mainscreen/assign-channels-to-groups"
 import ChannelSelection from "../mainscreen/channel-selection"
 import Alerts from "../mainscreen/alerts"
 import AssignTemplatesToGroups from "../mainscreen/assign-templates-to-groups"
+import { Cookies } from "react-cookie"
+const cookies = new Cookies()
 
 class App extends Component {
-  componentWillMount() {
-    localStorage.getItem("jwt-token")
-      ? localStorage.removeItem("jwt-token")
-      : console.log("NO TOKEN")
+  state = {
+    loggedIn: false
+  }
+
+  componentDidMount() {
+    console.log(
+      "APP COMPONENT CHECKING TOKEN IN COOKIES...",
+      cookies.get("token")
+    )
   }
 
   render() {
     return (
-      <BrowserRouter>
+      <Router>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route
             path="/auth/login"
             render={props => <LoginPage {...props} />}
           />
-          <Route path="/mainscreen/dashboard" component={Dashborad} />
-          <Route path="/mainscreen/servers" component={Servers} />
-          <Route
+          <PrivateRoute
+            exact
+            path="/mainscreen/dashboard"
+            component={Dashborad}
+          />
+          <PrivateRoute exact path="/mainscreen/servers" component={Servers} />
+          <PrivateRoute
+            exact
             path="/mainscreen/register-server"
             component={RegisterServer}
           />
-          <Route path="/mainscreen/endpoints" component={Endpoints} />
-          <Route path="/mainscreen/tuners" component={Tuners} />
-          <Route
+          <PrivateRoute
+            exact
+            path="/mainscreen/endpoints"
+            component={Endpoints}
+          />
+          <PrivateRoute exact path="/mainscreen/tuners" component={Tuners} />
+          <PrivateRoute
+            exact
             path="/mainscreen/assign-channels-to-groups"
             component={AssignChannelsToGroups}
           />
-          <Route
+          <PrivateRoute
+            exact
             path="/mainscreen/channel-selection"
             component={ChannelSelection}
           />
-          <Route path="/mainscreen/alerts" component={Alerts} />
-          <Route
+          <PrivateRoute path="/mainscreen/alerts" component={Alerts} />
+          <PrivateRoute
+            exact
             path="/mainscreen/assign-templates-to-groups"
             component={AssignTemplatesToGroups}
           />
         </Switch>
-      </BrowserRouter>
+      </Router>
     )
   }
 }
 
-// export default withRouter(App)
 export default App

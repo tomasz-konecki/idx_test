@@ -3,7 +3,6 @@ import { MenuList, MenuItem } from "@material-ui/core"
 import { Link } from "gatsby"
 
 export default function Menu({ path }) {
-  console.log("MENU path:", path)
   return (
     <MenuList style={{ background: "#ddd" }}>
       <MenuItem

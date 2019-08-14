@@ -2,7 +2,7 @@ export const pageStyles = {
   mainContainer: {
     display: `flex`,
     background: `#eaeaea`,
-    height: `81vh`
+    height: `85vh`
   },
   menuContainer: {
     width: `18%`,
@@ -13,5 +13,10 @@ export const pageStyles = {
     width: `82%`,
     paddingTop: `10px`,
     paddingLeft: `10px`
+  },
+  pageTitle: {
+    color: `#444`,
+    fontSize: `1.3rem`,
+    textTransform: `uppercase`
   }
 }

@@ -2,6 +2,8 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import logo from "../../images/intevi-logo.png"
+import { Cookies } from "react-cookie"
+const cookies = new Cookies()
 
 const Header = ({ siteTitle }) => (
   <header className="idx-gradient" style={{ background: `#000` }}>
@@ -15,23 +17,29 @@ const Header = ({ siteTitle }) => (
       }}
     >
       <div style={{ width: `9.4rem`, height: `3.1rem` }}>
-        <img src={logo} style={{ width: `100%`, height: `100%` }} alt="logo" />
+        {cookies.get("token") ? (
+          <Link to="/mainscreen/dashboard">
+            <img
+              src={logo}
+              style={{ width: `100%`, height: `100%` }}
+              alt="logo"
+            />
+          </Link>
+        ) : (
+          <img
+            src={logo}
+            style={{ width: `100%`, height: `100%` }}
+            alt="logo"
+          />
+        )}
       </div>
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`
-          }}
-        ></Link>
-      </h1>
+
       <div>
-        {localStorage.getItem("jwt-token") ? (
+        {cookies.get("token") ? (
           <Link to="/">
             <button
               className="login-btn"
-              onClick={() => localStorage.removeItem("jwt-token")}
+              onClick={() => cookies.remove("token")}
             >
               Log out
             </button>

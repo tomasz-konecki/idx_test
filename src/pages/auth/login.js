@@ -13,8 +13,10 @@ import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import Layout from "../../components/layout/layout"
 import SEO from "../../components/layout/seo"
-import axios from "axios"
-// import { withRouter } from "react-router"
+// import axios from "axios"
+import auth from "../../utils/auth"
+import { Cookies } from "react-cookie"
+const cookies = new Cookies()
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -54,17 +56,14 @@ export function LogIn(props) {
     if (username && password) submit(username, password)
   }
 
-  const submit = async (username, password) => {
-    const res = await axios.post("http://localhost:5000/login", {
-      username,
-      password
-    })
-
-    const { token } = res.data
-    localStorage.setItem("jwt-token", token)
-    console.log(localStorage.getItem("jwt-token"))
-    console.log("Login component PROPS:", props)
-    props.navigate("/mainscreen/dashboard")
+  const submit = (username, password) => {
+    auth
+      .login(username, password)
+      .then(response => {
+        console.log("*** Token", cookies.get("token"), response)
+        props.navigate("/mainscreen/dashboard")
+      })
+      .catch(error => console.log(error))
   }
 
   return (
@@ -134,5 +133,4 @@ export function LogIn(props) {
   )
 }
 
-// export default withRouter(LogIn)
 export default LogIn

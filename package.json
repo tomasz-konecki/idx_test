@@ -7,6 +7,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^4.3.1",
+    "@material-ui/icons": "^4.2.1",
     "axios": "^0.19.0",
     "formik": "^1.5.8",
     "gatsby": "^2.13.55",
@@ -19,6 +20,7 @@
     "gatsby-transformer-sharp": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
+    "react-cookie": "^4.0.1",
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.1",
     "react-router": "^5.0.1",

@@ -1,4 +1,5 @@
 import React from "react"
+
 import Layout from "../../components/layout/layout"
 import SEO from "../../components/layout/seo"
 import Menu from "../../components/layout/menu"
@@ -6,8 +7,6 @@ import Menu from "../../components/layout/menu"
 import { pageStyles } from "../../data/styles"
 
 export default class Alerts extends React.Component {
-  state = {}
-
   render() {
     return (
       <Layout>
