@@ -6,9 +6,7 @@ import TableCell from "@material-ui/core/TableCell"
 import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import Paper from "@material-ui/core/Paper"
-import Divider from "@material-ui/core/Divider"
 import CssBaseline from "@material-ui/core/CssBaseline"
-import EndpointsTable from "./endpointsTable"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,20 +27,9 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function createData(name, orientation, online, status) {
-  return { name, orientation, online, status }
-}
-
-// const rows = [
-//   createData("Samsung", "Landscape", true, "TVN 7"),
-//   createData("LG", "Portrait", true, "TVN 7")
-// ]
-
 export default function Endpoints(props) {
   const classes = useStyles()
   let groups = props.endpoints
-
-  console.log("ENDPOINTS COMPONENT:", groups)
 
   return (
     <div className={classes.root}>

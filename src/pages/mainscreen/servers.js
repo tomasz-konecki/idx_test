@@ -1,4 +1,5 @@
 import React from "react"
+import CssBaseline from "@material-ui/core/CssBaseline"
 import Layout from "../../components/layout/layout"
 import SEO from "../../components/layout/seo"
 import Menu from "../../components/layout/menu"
@@ -11,30 +12,23 @@ import ServersList from "../../components/servers/serversList"
 import { pageStyles } from "../../data/styles"
 
 export default class Servers extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loadingServers: true,
-      loadingEndpoints: false,
-      loadingChannels: false,
-      idtservers: [],
-      selectedServer: "",
-      endpointsShown: false,
-      groupsWithEndpoints: []
-    }
-
-    // this.groupsWithEndpoints = []
-    // this.idtservers = []
-    this.channels = []
-    this.showEndpoints = this.showEndpoints.bind(this)
-    this.showChannels = this.showChannels.bind(this)
-    this.selectServer = this.selectServer.bind(this)
+  state = {
+    loadingServers: true,
+    loadingEndpoints: false,
+    loadingChannels: false,
+    idtservers: [],
+    selectedServer: "",
+    endpointsShown: false,
+    groupsWithEndpoints: [],
+    channelsShown: false,
+    channels: []
   }
 
   showEndpoints = productkey => () => {
     this.setState(prevState => ({
       loadingEndpoints: true,
       endpointsShown: !prevState.endpointsShown,
+      channelsShown: false,
       groupsWithEndpoints: []
     }))
 
@@ -57,15 +51,29 @@ export default class Servers extends React.Component {
 
   showChannels = productkey => () => {
     this.setState({ loadingChannels: true })
+
+    this.setState(prevState => ({
+      loadingChannels: true,
+      channelsShown: !prevState.channelsShown,
+      endpointsShown: false,
+      channels: []
+    }))
+
     channels
       .get(productkey)
       .then(response => {
-        this.channels = response
+        this.setState({
+          loadingChannels: false,
+          channels: response
+        })
       })
       .catch(error => {
-        this.channels = []
+        this.setState({
+          channels: [],
+          loadingChannels: false
+        })
       })
-      .finally(() => this.setState({ loadingChannels: false }))
+    // .finally(() => this.setState({ loadingChannels: false }))
   }
 
   selectServer = productkey => () => {
@@ -98,6 +106,7 @@ export default class Servers extends React.Component {
     return (
       <Layout>
         <SEO title="Servers" />
+        <CssBaseline />
         <div style={styles.mainContainer}>
           <div style={styles.menuContainer}>
             <Menu path={this.props.path} />
@@ -130,43 +139,18 @@ export default class Servers extends React.Component {
               ))
             )}
 
-            <h2>enpoints:</h2>
-            {this.state.loadingEndpoints ? (
-              <p>Loading...</p>
-            ) : (
-              this.state.groupsWithEndpoints.map(group => (
-                <div key={group.id}>
-                  <h4>{group.name}:</h4>
-                  {group.endpoints.map(endpoint => (
-                    <p key={endpoint.mac}>
-                      &emsp;{endpoint.name} -{" "}
-                      {endpoint.online ? "online" : "offline"}
-                    </p>
-                  ))}
-                </div>
-              ))
-            )}
-
-            <h2>channels:</h2>
-            {this.state.loadingChannels ? (
-              <p>Loading...</p>
-            ) : (
-              this.channels.map(channel => (
-                <p key={channel.id}>
-                  {channel.name} -{" "}
-                  {channel.address === "" ? "Not Transmiting" : channel.address}
-                </p>
-              ))
-            )}
             <ServersList
               servers={idtservers}
-              endpointsShown={this.state.endpointsShown}
-              selectedServer={this.state.selectedServer}
               selectServer={this.selectServer}
-              showEndpoints={this.showEndpoints}
+              selectedServer={this.state.selectedServer}
               endpoints={this.state.groupsWithEndpoints}
-              showChannels={this.showChannels}
+              showEndpoints={this.showEndpoints}
+              endpointsShown={this.state.endpointsShown}
               loadingEndpoints={this.state.loadingEndpoints}
+              channels={this.state.channels}
+              showChannels={this.showChannels}
+              channelsShown={this.state.channelsShown}
+              loadingChannels={this.state.loadingChannels}
             />
           </div>
         </div>

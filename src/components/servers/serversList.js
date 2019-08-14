@@ -9,6 +9,7 @@ import ComputerIcon from "@material-ui/icons/Computer"
 import Button from "@material-ui/core/Button"
 
 import Endpoints from "./endpoints/endpoints"
+import Channels from "./channels/channels"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,22 +44,26 @@ const useStyles = makeStyles(theme => ({
 
 export default function ServersList(props) {
   const [currentServer, setCurrentServer] = useState("")
-
   const classes = useStyles()
-
-  console.log(">>> SERVERS:", props.servers)
-  // console.log("*** SELECTED SERVER:", props.selectedServer)
 
   const handleSelect = server => props.selectServer(server)()
   const handleShowEndpoints = server => {
     setCurrentServer(server)
     props.showEndpoints(server)()
   }
-  const handleShowChannels = server => props.showChannels(server)()
+  const handleShowChannels = server => {
+    setCurrentServer(server)
+    props.showChannels(server)()
+  }
 
   const createList = () =>
     props.servers.map(server => {
-      const flag = props.endpointsShown && server.productkey === currentServer
+      const endpointsFlag =
+        props.endpointsShown && server.productkey === currentServer
+
+      const channelsFlag =
+        props.channelsShown && server.productkey === currentServer
+
       return (
         <div key={server.id}>
           <ListItem className={classes.listItem} key={server.id}>
@@ -73,21 +78,26 @@ export default function ServersList(props) {
               className={classes.buttonDark}
               onClick={() => handleShowEndpoints(server.productkey)}
             >
-              {!flag ? `Show Endpoints` : `Hide Endpoints`}
+              {!endpointsFlag ? `Show Endpoints` : `Hide Endpoints`}
             </Button>
-
-            <Button color="primary" className={classes.buttonDark}>
+            {props.loadingChannels && server.productkey === currentServer ? (
+              <p>Loading...</p>
+            ) : null}
+            <Button
+              className={classes.buttonDark}
+              onClick={() => handleShowChannels(server.productkey)}
+            >
               Show Channels
             </Button>
             <Button
-              color="secondary"
               className={classes.buttonLight}
               onClick={() => handleSelect(server.productkey)}
             >
               Select
             </Button>
           </ListItem>
-          {flag ? <Endpoints endpoints={props.endpoints} /> : null}
+          {endpointsFlag ? <Endpoints endpoints={props.endpoints} /> : null}
+          {channelsFlag ? <Channels channels={props.channels} /> : null}
         </div>
       )
     })

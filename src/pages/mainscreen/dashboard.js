@@ -2,6 +2,7 @@ import React from "react"
 import Layout from "../../components/layout/layout"
 import SEO from "../../components/layout/seo"
 import Menu from "../../components/layout/menu"
+import CssBaseline from "@material-ui/core/CssBaseline"
 
 import { pageStyles } from "../../data/styles"
 
@@ -10,6 +11,7 @@ export default function Dashboard(props) {
   return (
     <Layout>
       <SEO title="Dashboard" />
+      <CssBaseline />
       <div style={styles.mainContainer}>
         <div style={styles.menuContainer}>
           <Menu path={props.path} />
