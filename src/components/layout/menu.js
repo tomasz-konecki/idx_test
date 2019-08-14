@@ -2,7 +2,7 @@ import React from "react"
 import { MenuList, MenuItem } from "@material-ui/core"
 import { Link } from "gatsby"
 
-export default function Menu({ path }) {
+export default function Menu({ path, active }) {
   return (
     <MenuList style={{ background: "#ddd" }}>
       <MenuItem
@@ -16,6 +16,7 @@ export default function Menu({ path }) {
         component={Link}
         to="/mainscreen/register-server"
         selected={"/mainscreen/register-server/" === path}
+        disabled={!active}
       >
         Register New IDT Server
       </MenuItem>
@@ -23,6 +24,7 @@ export default function Menu({ path }) {
         component={Link}
         to="/mainscreen/endpoints"
         selected={"/mainscreen/endpoints/" === path}
+        disabled={!active}
       >
         Endpoints
       </MenuItem>
@@ -30,6 +32,7 @@ export default function Menu({ path }) {
         component={Link}
         to="/mainscreen/tuners"
         selected={"/mainscreen/tuners/" === path}
+        disabled={!active}
       >
         Tuners
       </MenuItem>
@@ -37,6 +40,7 @@ export default function Menu({ path }) {
         component={Link}
         to="/mainscreen/assign-channels-to-groups"
         selected={"/mainscreen/assign-channels-to-groups/" === path}
+        disabled={!active}
       >
         Assign Channels To Groups
       </MenuItem>
@@ -44,6 +48,7 @@ export default function Menu({ path }) {
         component={Link}
         to="/mainscreen/channel-selection"
         selected={"/mainscreen/channel-selection/" === path}
+        disabled={!active}
       >
         Channel Selection
       </MenuItem>
@@ -51,6 +56,7 @@ export default function Menu({ path }) {
         component={Link}
         to="/mainscreen/alerts"
         selected={"/mainscreen/alerts/" === path}
+        disabled={!active}
       >
         Alerts
       </MenuItem>
@@ -58,6 +64,7 @@ export default function Menu({ path }) {
         component={Link}
         to="/mainscreen/assign-templates-to-groups"
         selected={"/mainscreen/assign-templates-to-groups/" === path}
+        disabled={!active}
       >
         Assign Templates To Groups
       </MenuItem>

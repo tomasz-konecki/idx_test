@@ -38,5 +38,5 @@ class IDTServers {
   }
 }
 
-const idtservers = new IDTServers()
-export default idtservers
+// const idtservers = new IDTServers()
+export default new IDTServers()

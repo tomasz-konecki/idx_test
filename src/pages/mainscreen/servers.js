@@ -46,12 +46,9 @@ export default class Servers extends React.Component {
           loadingEndpoints: false
         })
       })
-    // .finally(() => this.setState({ loadingEndpoints: false }))
   }
 
   showChannels = productkey => () => {
-    this.setState({ loadingChannels: true })
-
     this.setState(prevState => ({
       loadingChannels: true,
       channelsShown: !prevState.channelsShown,
@@ -73,12 +70,11 @@ export default class Servers extends React.Component {
           loadingChannels: false
         })
       })
-    // .finally(() => this.setState({ loadingChannels: false }))
   }
 
   selectServer = productkey => () => {
-    console.log("SELECTING SERVER....", productkey)
     idtservers.select(productkey)
+    localStorage.setItem("selectedServer", productkey)
     this.setState({ selectedServer: productkey })
   }
 
@@ -103,42 +99,21 @@ export default class Servers extends React.Component {
   render() {
     const { idtservers } = this.state
 
+    const active = localStorage.getItem("selectedServer")
+      ? localStorage.getItem("selectedServer") === ""
+        ? false
+        : true
+      : false
+
     return (
       <Layout>
         <SEO title="Servers" />
         <CssBaseline />
         <div style={styles.mainContainer}>
           <div style={styles.menuContainer}>
-            <Menu path={this.props.path} />
+            <Menu path={this.props.path} active={active} />
           </div>
           <div style={styles.pageContents}>
-            <h1 style={styles.pageTitle}>Your Servers</h1>
-            {this.state.loadingServers ? (
-              <p>Loading...</p>
-            ) : (
-              this.state.idtservers.map(server => (
-                <p key={server.productkey}>
-                  name: {server.name}, productkey: {server.productkey}
-                  <button
-                    key={server.productkey}
-                    onClick={this.showEndpoints(server.productkey)}
-                  >
-                    Show endpoints
-                  </button>
-                  <button onClick={this.showChannels(server.productkey)}>
-                    Show channels
-                  </button>
-                  {this.state.selectedServer === server.productkey ? (
-                    "selected"
-                  ) : (
-                    <button onClick={this.selectServer(server.productkey)}>
-                      select
-                    </button>
-                  )}
-                </p>
-              ))
-            )}
-
             <ServersList
               servers={idtservers}
               selectServer={this.selectServer}

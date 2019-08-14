@@ -30,6 +30,8 @@ const useStyles = makeStyles(theme => ({
 export default function Channels({ channels }) {
   const classes = useStyles()
 
+  console.log("CHANNELS >>>", channels)
+
   return (
     <div className={classes.root}>
       <CssBaseline />

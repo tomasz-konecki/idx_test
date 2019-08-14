@@ -11,9 +11,8 @@ import { useStaticQuery, graphql } from "gatsby"
 
 import Header from "./header"
 import "./layout.css"
-// import stripe from "../../images/footer-stripe.png"
 
-const Layout = ({ children }) => {
+const Layout = ({ children, selectedServer }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -33,16 +32,7 @@ const Layout = ({ children }) => {
           maxWidth: 1920
         }}
       >
-        <main style={{ height: `` }}>{children}</main>
-        {/* <footer>
-          <div style={{ width: `100%`, height: `30px` }}>
-            <img
-              src={stripe}
-              alt=""
-              style={{ height: `100%`, width: `100%` }}
-            />
-          </div>
-        </footer> */}
+        <main>{children}</main>
       </div>
     </>
   )
