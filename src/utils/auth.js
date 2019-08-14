@@ -52,9 +52,8 @@ class Auth {
   }
 
   getHeaders() {
-    return {
-      Authorization: `Bearer ${this.token}`
-    }
+    const token = cookies.get("token")
+    return token ? { Authorization: `Bearer ${token}` } : null
   }
 }
 

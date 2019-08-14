@@ -19,10 +19,11 @@ export default class Servers extends React.Component {
       loadingChannels: false,
       idtservers: [],
       selectedServer: "",
-      endpointsShown: false
+      endpointsShown: false,
+      groupsWithEndpoints: []
     }
 
-    this.groupsWithEndpoints = []
+    // this.groupsWithEndpoints = []
     // this.idtservers = []
     this.channels = []
     this.showEndpoints = this.showEndpoints.bind(this)
@@ -33,17 +34,25 @@ export default class Servers extends React.Component {
   showEndpoints = productkey => () => {
     this.setState(prevState => ({
       loadingEndpoints: true,
-      endpointsShown: !prevState.endpointsShown
+      endpointsShown: !prevState.endpointsShown,
+      groupsWithEndpoints: []
     }))
+
     endpoints
       .getGroupsWithEndpoints(productkey)
       .then(response => {
-        this.groupsWithEndpoints = response
+        this.setState({
+          groupsWithEndpoints: response,
+          loadingEndpoints: false
+        })
       })
       .catch(error => {
-        this.groupsWithEndpoints = []
+        this.setState({
+          groupsWithEndpoints: [],
+          loadingEndpoints: false
+        })
       })
-      .finally(() => this.setState({ loadingEndpoints: false }))
+    // .finally(() => this.setState({ loadingEndpoints: false }))
   }
 
   showChannels = productkey => () => {
@@ -125,7 +134,7 @@ export default class Servers extends React.Component {
             {this.state.loadingEndpoints ? (
               <p>Loading...</p>
             ) : (
-              this.groupsWithEndpoints.map(group => (
+              this.state.groupsWithEndpoints.map(group => (
                 <div key={group.id}>
                   <h4>{group.name}:</h4>
                   {group.endpoints.map(endpoint => (
@@ -155,8 +164,9 @@ export default class Servers extends React.Component {
               selectedServer={this.state.selectedServer}
               selectServer={this.selectServer}
               showEndpoints={this.showEndpoints}
-              endpoints={this.groupsWithEndpoints}
+              endpoints={this.state.groupsWithEndpoints}
               showChannels={this.showChannels}
+              loadingEndpoints={this.state.loadingEndpoints}
             />
           </div>
         </div>

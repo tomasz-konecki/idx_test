@@ -57,36 +57,40 @@ export default function ServersList(props) {
   const handleShowChannels = server => props.showChannels(server)()
 
   const createList = () =>
-    props.servers.map(server => (
-      <div key={server.id}>
-        <ListItem className={classes.listItem} key={server.id}>
-          <ListItemIcon>
-            <ComputerIcon />
-          </ListItemIcon>
-          <ListItemText primary={server.name.toUpperCase()} />
-          <Button
-            className={classes.buttonDark}
-            onClick={() => handleShowEndpoints(server.productkey)}
-          >
-            Show Endpoints
-          </Button>
+    props.servers.map(server => {
+      const flag = props.endpointsShown && server.productkey === currentServer
+      return (
+        <div key={server.id}>
+          <ListItem className={classes.listItem} key={server.id}>
+            <ListItemIcon>
+              <ComputerIcon />
+            </ListItemIcon>
+            <ListItemText primary={server.name.toUpperCase()} />
+            {props.loadingEndpoints && server.productkey === currentServer ? (
+              <p>Loading...</p>
+            ) : null}
+            <Button
+              className={classes.buttonDark}
+              onClick={() => handleShowEndpoints(server.productkey)}
+            >
+              {!flag ? `Show Endpoints` : `Hide Endpoints`}
+            </Button>
 
-          <Button color="primary" className={classes.buttonDark}>
-            Show Channels
-          </Button>
-          <Button
-            color="secondary"
-            className={classes.buttonLight}
-            onClick={() => handleSelect(server.productkey)}
-          >
-            Select
-          </Button>
-        </ListItem>
-        {props.endpointsShown && server.productkey === currentServer ? (
-          <Endpoints endpoints={props.endpoints} />
-        ) : null}
-      </div>
-    ))
+            <Button color="primary" className={classes.buttonDark}>
+              Show Channels
+            </Button>
+            <Button
+              color="secondary"
+              className={classes.buttonLight}
+              onClick={() => handleSelect(server.productkey)}
+            >
+              Select
+            </Button>
+          </ListItem>
+          {flag ? <Endpoints endpoints={props.endpoints} /> : null}
+        </div>
+      )
+    })
 
   return (
     <div className={classes.root}>
