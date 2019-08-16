@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     height: `2rem`
   },
   serverName: {
-    color: `#555`
+    color: `red`
   },
   buttonDark: {
     margin: theme.spacing(0),
@@ -33,6 +33,9 @@ const useStyles = makeStyles(theme => ({
     color: `#1CB3E9`,
     fontSize: `0.8rem`,
     width: `93px`
+  },
+  divider: {
+    borderBottom: `1px solid #ccc`
   }
 }))
 
@@ -69,14 +72,14 @@ export default function ServersList(props) {
               <ComputerIcon
                 style={{
                   color:
-                    server.productkey === props.selectedServer
+                    server.productkey === localStorage.getItem("selectedServer")
                       ? `#3CB371`
                       : `#999`
                 }}
               />
             </ListItemIcon>
             <ListItemText
-              primary={server.name.toUpperCase()}
+              secondary={server.name.toUpperCase()}
               className={classes.serverName}
             />
             <span
@@ -94,6 +97,14 @@ export default function ServersList(props) {
             <Button
               className={classes.buttonDark}
               onClick={() => handleShowEndpoints(server.productkey)}
+              style={{
+                textDecoration:
+                  !props.loadingEndpoints &&
+                  server.productkey === currentServer &&
+                  props.endpointsShown
+                    ? `underline`
+                    : `none`
+              }}
             >
               Endpoints
             </Button>
@@ -114,6 +125,14 @@ export default function ServersList(props) {
             <Button
               className={classes.buttonDark}
               onClick={() => handleShowChannels(server.productkey)}
+              style={{
+                textDecoration:
+                  !props.loadingChannels &&
+                  server.productkey === currentServer &&
+                  props.channelsShown
+                    ? `underline`
+                    : `none`
+              }}
             >
               Channels
             </Button>
@@ -134,6 +153,7 @@ export default function ServersList(props) {
               )}
             </Button>
           </ListItem>
+          <div className={classes.divider} />
           {endpointsFlag ? <Endpoints endpoints={props.endpoints} /> : null}
           {channelsFlag ? <Channels channels={props.channels} /> : null}
         </div>
