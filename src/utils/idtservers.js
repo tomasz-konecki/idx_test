@@ -34,9 +34,8 @@ class IDTServers {
   }
 
   getSelected() {
-    return this.selected
+    return localStorage.getItem("selectedServer")
   }
 }
 
-// const idtservers = new IDTServers()
 export default new IDTServers()

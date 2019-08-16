@@ -1,0 +1,101 @@
+@font-face {
+  /* font-family: "Roboto";
+  src: url("../../assets/Roboto-Light.ttf"); */
+}
+
+.alertsImageInList {
+  width: 288px;
+  height: 162px;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.alertDiv {
+  position: relative;
+  background-color: whitesmoke;
+  box-shadow: 1px 5px 10px;
+  margin-top: 20px;
+  width: 328px;
+  height: 262px;
+  border-radius: 15px;
+}
+
+.editAlertButton {
+  position: absolute;
+  left: 20px;
+  top: 192px;
+  width: 139px;
+  height: 50px;
+}
+
+.showAlertButton {
+  position: absolute;
+  left: 169px;
+  top: 192px;
+  width: 139px;
+  height: 50px;
+}
+
+.alertText {
+  position: absolute;
+  font-family: "Roboto";
+  left: 20px;
+  top: 90px;
+  width: 288px;
+  height: 162px;
+  text-align: center;
+  color: white;
+  font-size: 8px;
+}
+
+.alertEditor {
+  position: absolute;
+  left: 400px;
+  top: 0px;
+  background-color: whitesmoke;
+  box-shadow: 1px 5px 10px;
+  margin-bottom: 20px;
+  width: 616px; /* 20 + 576 + 20  */
+  height: 474px; /* 20 + 324 + 10 + 100 + 20 */
+  border-radius: 30px;
+}
+
+.alertsImageInEditor {
+  width: 576px;
+  height: 324px;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+
+.alertEditorText {
+  position: absolute;
+  font-family: "Roboto";
+  left: 20px;
+  top: 20px;
+  width: 576px;
+  height: 324px;
+  text-align: center;
+  color: white;
+  background-color: transparent;
+  font-size: 17px;
+  padding: 0;
+  margin: 0;
+  resize: none;
+}
+
+.saveEditsButton {
+  position: absolute;
+  left: 20px;
+  top: 354px;
+  width: 283px;
+  height: 100px;
+}
+
+.saveAsNewButton {
+  position: absolute;
+  left: 313px;
+  top: 354px;
+  width: 283px;
+  height: 100px;
+}

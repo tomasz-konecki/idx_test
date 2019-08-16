@@ -16,7 +16,7 @@ export default function Menu({ path, active }) {
         component={Link}
         to="/mainscreen/register-server"
         selected={"/mainscreen/register-server/" === path}
-        disabled={!active}
+        // disabled={!active}
       >
         Register New IDT Server
       </MenuItem>

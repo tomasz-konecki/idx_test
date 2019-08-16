@@ -3,6 +3,7 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import Layout from "../../components/layout/layout"
 import SEO from "../../components/layout/seo"
 import Menu from "../../components/layout/menu"
+import TestCard from "../../components/alerts/card"
 
 import { pageStyles } from "../../data/styles"
 
@@ -26,7 +27,7 @@ export default class Endpoints extends React.Component {
           </div>
           <div style={styles.pageContents}>
             <h1>Endpoints</h1>
-            <p style={{ fontSize: "11px" }}></p>
+            <TestCard />
           </div>
         </div>
       </Layout>
