@@ -30,15 +30,28 @@ export default class Alerts extends React.Component {
     alerts
       .get()
       .then(response => {
-        this.setState({
-          alertsList: response,
-          loadingAlerts: false,
-          alertsShown: true
-        })
+        this.setState(
+          {
+            alertsList: response,
+            loadingAlerts: false
+          },
+          () => this.getCurrentlyShownAlert()
+        )
       })
       .catch(error => {
         this.setState({ alertsList: [] })
       })
+  }
+
+  getCurrentlyShownAlert = async () => {
+    console.log(">>> getCurrentlyShownAlert")
+    const currentlyShownAlert = await idtservers.getCurrentAlert()
+    console.log(currentlyShownAlert)
+
+    this.setState({
+      alertsShown: currentlyShownAlert ? true : false,
+      currentlyShownAlert
+    })
   }
 
   openAlertEditor = alert => () =>
@@ -89,7 +102,18 @@ export default class Alerts extends React.Component {
     ) : null
 
   clearAlerts = () =>
-    this.setState({ alertsShown: false }, () => alerts.clear())
+    this.setState({ alertsShown: false }, () =>
+      alerts.clear().then(res => {
+        console.log("clearAlerts", res)
+        res === "OK"
+          ? idtservers.setCurrentAlert("").then(res => {
+              res.status === 200
+                ? this.setState({ currentlyShownAlert: "" })
+                : alert(`Something's not right with setting current alert...`)
+            })
+          : alert(`Something's not right with clearing alerts...`)
+      })
+    )
 
   showAlert = (text, alertIndex) => () => {
     alerts
@@ -104,10 +128,15 @@ export default class Alerts extends React.Component {
               () => {
                 idtservers.setCurrentAlert(alertIndex).then(res => {
                   console.log("showAlert ==>", res)
+                  if (res.status !== 200) {
+                    alert(
+                      `showAlert method => Something's not right with setting current alert...`
+                    )
+                  }
                 })
               }
             )
-          : null
+          : alert(`Something's not right in showAlert method...`)
       )
       .catch(err => alert(err))
   }
@@ -158,16 +187,9 @@ export default class Alerts extends React.Component {
                   style={styles.button}
                   variant="outlined"
                   color="secondary"
-                  onClick={
-                    alertsShown
-                      ? this.clearAlerts
-                      : () =>
-                          this.setState({ loadingAlerts: true }, () =>
-                            this.loadAlerts()
-                          )
-                  }
+                  onClick={this.clearAlerts}
                 >
-                  Stop displaying alerts
+                  Stop displaying alert
                 </Button>
               ) : (
                 <Button
@@ -176,7 +198,16 @@ export default class Alerts extends React.Component {
                   color="default"
                   disabled
                 >
-                  No alerts are displayed
+                  <span
+                    style={{
+                      fontSize: `12px`,
+                      display: `block`,
+                      height: `1.3rem`,
+                      paddingTop: `2px`
+                    }}
+                  >
+                    No alert is being displayed
+                  </span>
                 </Button>
               )}
             </div>

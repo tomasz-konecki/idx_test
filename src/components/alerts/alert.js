@@ -4,10 +4,10 @@ import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
 import CardMedia from "@material-ui/core/CardMedia"
 import CardActions from "@material-ui/core/CardActions"
-import IconButton from "@material-ui/core/IconButton"
+// import IconButton from "@material-ui/core/IconButton"
 import { red } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
-import CloseIcon from "@material-ui/icons/Close"
+// import CloseIcon from "@material-ui/icons/Close"
 
 import fireDrillPic from "../../assets/img/firedrill.png"
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardSelected: {
     maxWidth: `19.15rem`,
-    height: `350px`,
+    height: `356px`,
     position: `relative`,
     marginRight: `1.6rem`,
     marginBottom: `1.6rem`,
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
   media: {
     height: 0,
-    paddingTop: `56.25%`, // 16:9
+    paddingTop: `61%`, // 16:9
     marginRight: `0.8rem`,
     marginLeft: `0.8rem`,
     borderRadius: `5px`
@@ -67,17 +67,17 @@ export default function Alert(props) {
   return (
     <Card
       className={
-        alertsShown & (currentlyShownAlert === alertIndex)
+        alertsShown & (Number(currentlyShownAlert) === alertIndex)
           ? classes.cardSelected
           : classes.card
       }
     >
       <CardHeader
-        action={
-          <IconButton aria-label="close">
-            <CloseIcon />
-          </IconButton>
-        }
+        // action={
+        //   <IconButton aria-label="close">
+        //     <CloseIcon />
+        //   </IconButton>
+        // }
         subheader={alert.name}
       />
       <CardMedia
