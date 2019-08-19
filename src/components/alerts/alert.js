@@ -13,10 +13,19 @@ import fireDrillPic from "../../assets/img/firedrill.png"
 
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 345,
+    maxWidth: `19.15rem`,
+    height: `356px`,
     position: `relative`,
     marginRight: `1.6rem`,
     marginBottom: `1.6rem`
+  },
+  cardSelected: {
+    maxWidth: `19.15rem`,
+    height: `350px`,
+    position: `relative`,
+    marginRight: `1.6rem`,
+    marginBottom: `1.6rem`,
+    border: `3px solid #3CB371`
   },
   media: {
     height: 0,
@@ -41,13 +50,28 @@ const useStyles = makeStyles(theme => ({
 
 export default function Alert(props) {
   const classes = useStyles()
-  const { alert, alertIndex, openAlertEditor, showAlert } = props
+  const {
+    alert,
+    alertIndex,
+    openAlertEditor,
+    showAlert,
+    currentlyShownAlert,
+    alertsShown
+  } = props
 
   const handleEdit = alert => openAlertEditor(alert)()
   const handleShow = alert => showAlert(alert, alertIndex)()
 
+  console.log("CURRENTLY SHOWN ALERT:", currentlyShownAlert)
+
   return (
-    <Card className={classes.card}>
+    <Card
+      className={
+        alertsShown & (currentlyShownAlert === alertIndex)
+          ? classes.cardSelected
+          : classes.card
+      }
+    >
       <CardHeader
         action={
           <IconButton aria-label="close">

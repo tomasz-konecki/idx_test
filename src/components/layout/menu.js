@@ -4,7 +4,7 @@ import { Link } from "gatsby"
 
 export default function Menu({ path, active }) {
   return (
-    <MenuList style={{ background: "#ddd" }}>
+    <MenuList style={{ background: "#ddd", position: "fixed" }}>
       <MenuItem
         component={Link}
         to="/mainscreen/servers"

@@ -2,7 +2,8 @@ export const pageStyles = {
   mainContainer: {
     display: `flex`,
     background: `#eaeaea`,
-    minHeight: `85vh`
+    paddingTop: `4.9rem`,
+    minHeight: `100vh`
   },
   menuContainer: {
     width: `18%`,

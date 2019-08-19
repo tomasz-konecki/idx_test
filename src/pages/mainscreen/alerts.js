@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button"
 import Menu from "../../components/layout/menu"
 import Alert from "../../components/alerts/alert"
 import alerts from "../../utils/alerts"
+import idtservers from "../../utils/idtservers"
 
 import fireDrillPic from "../../assets/img/firedrill.png"
 import { pageStyles } from "../../data/styles"
@@ -17,7 +18,8 @@ export default class Alerts extends React.Component {
     openedAlertId: "",
     openedAlertText: "",
     alertsList: [],
-    alertsShown: true
+    alertsShown: false,
+    currentlyShownAlert: ""
   }
 
   componentDidMount() {
@@ -28,24 +30,24 @@ export default class Alerts extends React.Component {
     alerts
       .get()
       .then(response => {
-        this.setState({ alertsList: response, loadingAlerts: false })
+        this.setState({
+          alertsList: response,
+          loadingAlerts: false,
+          alertsShown: true
+        })
       })
       .catch(error => {
         this.setState({ alertsList: [] })
       })
   }
 
-  openAlertEditor = alert => () => {
-    console.log("OPENING ALERT EDITIOR...")
+  openAlertEditor = alert => () =>
     this.setState({
       openedAlertId: alert.id,
       openedAlertText: alert.sampletext
     })
-  }
 
-  handleInputChange = e => {
-    this.setState({ openedAlertText: e.target.value })
-  }
+  handleInputChange = e => this.setState({ openedAlertText: e.target.value })
 
   saveEdits = () => {
     this.setState({ loadingAlerts: true })
@@ -60,17 +62,14 @@ export default class Alerts extends React.Component {
       .catch(() => {})
   }
 
-  saveAsNew = () => {
+  saveAsNew = () =>
     this.setState({
       openedAlertId: "",
       openedAlertText: ""
     })
-  }
 
-  renderAlertEditor = () => {
-    if (!this.state.openedAlertId || this.state.openedAlertId === "")
-      return <div />
-    return (
+  renderAlertEditor = () =>
+    this.state.openedAlertId || !this.state.openedAlertId === "" ? (
       <div className="alertEditor">
         <div style={{ position: "relative" }}>
           <img src={fireDrillPic} alt="alert" className="alertsImageInEditor" />
@@ -87,22 +86,34 @@ export default class Alerts extends React.Component {
           </button>
         </div>
       </div>
-    )
-  }
+    ) : null
 
-  clearAlerts = () => {
+  clearAlerts = () =>
     this.setState({ alertsShown: false }, () => alerts.clear())
-  }
 
   showAlert = (text, alertIndex) => () => {
     alerts
       .show(text, alertIndex)
-      .then(res => (res === `OK` ? alert(`Alert is shown`) : null))
+      .then(res =>
+        res === `OK`
+          ? this.setState(
+              {
+                alertsShown: true,
+                currentlyShownAlert: alertIndex
+              },
+              () => {
+                idtservers.setCurrentAlert(alertIndex).then(res => {
+                  console.log("showAlert ==>", res)
+                })
+              }
+            )
+          : null
+      )
       .catch(err => alert(err))
   }
 
   renderAlerts = () => {
-    const { alertsList } = this.state
+    const { alertsList, currentlyShownAlert, alertsShown } = this.state
 
     return !alertsList || alertsList.length === 0 ? (
       <div>No alerts found...</div>
@@ -115,6 +126,8 @@ export default class Alerts extends React.Component {
             alertIndex={alertIndex}
             openAlertEditor={this.openAlertEditor}
             showAlert={this.showAlert}
+            currentlyShownAlert={currentlyShownAlert}
+            alertsShown={alertsShown}
           />
         ))}
       </div>
@@ -122,8 +135,9 @@ export default class Alerts extends React.Component {
   }
 
   render() {
-    const active = localStorage.getItem("selectedServer")
     const { alertsShown } = this.state
+
+    const active = localStorage.getItem("selectedServer")
       ? localStorage.getItem("selectedServer") === ""
         ? false
         : true
@@ -139,20 +153,32 @@ export default class Alerts extends React.Component {
           </div>
           <div style={styles.pageContents}>
             <div style={styles.btnContainer}>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={
-                  alertsShown
-                    ? this.clearAlerts
-                    : () =>
-                        this.setState({ loadingAlerts: true }, () =>
-                          this.loadAlerts()
-                        )
-                }
-              >
-                {alertsShown ? `Stop showing alerts` : `Start showing alerts`}
-              </Button>
+              {alertsShown ? (
+                <Button
+                  style={styles.button}
+                  variant="outlined"
+                  color="secondary"
+                  onClick={
+                    alertsShown
+                      ? this.clearAlerts
+                      : () =>
+                          this.setState({ loadingAlerts: true }, () =>
+                            this.loadAlerts()
+                          )
+                  }
+                >
+                  Stop displaying alerts
+                </Button>
+              ) : (
+                <Button
+                  style={styles.button}
+                  variant="outlined"
+                  color="default"
+                  disabled
+                >
+                  No alerts are displayed
+                </Button>
+              )}
             </div>
             {this.state.loadingAlerts ? "Loading..." : this.renderAlerts()}
             {this.state.loadingAlerts ? "Loading..." : this.renderAlertEditor()}
@@ -172,8 +198,12 @@ const styles = {
     justifyContnet: `space-between`
   },
   btnContainer: {
+    height: `2.2rem`,
     paddingRight: `7rem`,
     marginTop: `0.5rem`,
     textAlign: `right`
+  },
+  button: {
+    width: `14rem`
   }
 }

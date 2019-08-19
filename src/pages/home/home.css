@@ -1,8 +1,9 @@
 .home-container {
   width: 100%;
-  min-height: 88vh;
+  /* min-height: 88vh; */
   background-color: #eaeaea;
   padding-top: 200px;
+  /* margin-top: 90px; */
 }
 
 .idx-title-container {

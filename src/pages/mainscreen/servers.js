@@ -85,6 +85,7 @@ export default class Servers extends React.Component {
     idtservers
       .get()
       .then(response => {
+        console.log(response)
         this.setState({
           idtservers: response,
           loadingServers: false

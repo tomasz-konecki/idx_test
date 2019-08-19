@@ -13,9 +13,9 @@ import AssignChannelsToGroups from "../mainscreen/assign-channels-to-groups"
 import ChannelSelection from "../mainscreen/channel-selection"
 import Alerts from "../mainscreen/alerts"
 import AssignTemplatesToGroups from "../mainscreen/assign-templates-to-groups"
-import { Cookies } from "react-cookie"
-import { borderColor } from "@material-ui/system"
-const cookies = new Cookies()
+// import { borderColor } from "@material-ui/system"
+// import { Cookies } from "react-cookie"
+// const cookies = new Cookies()
 
 class App extends Component {
   state = {
