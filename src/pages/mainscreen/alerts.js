@@ -5,6 +5,7 @@ import SEO from "../../components/layout/seo"
 import Button from "@material-ui/core/Button"
 import Menu from "../../components/layout/menu"
 import Alert from "../../components/alerts/alert"
+import AlertEditor from "../../components/alerts/alertEditor"
 import alerts from "../../utils/alerts"
 import idtservers from "../../utils/idtservers"
 
@@ -19,7 +20,8 @@ export default class Alerts extends React.Component {
     openedAlertText: "",
     alertsList: [],
     alertsShown: false,
-    currentlyShownAlert: ""
+    currentlyShownAlert: "",
+    alertIndex: undefined
   }
 
   componentDidMount() {
@@ -54,23 +56,34 @@ export default class Alerts extends React.Component {
     })
   }
 
-  openAlertEditor = alert => () =>
+  openAlertEditor = (alert, alertIndex) => () =>
+    console.log(alert) ||
     this.setState({
       openedAlertId: alert.id,
-      openedAlertText: alert.sampletext
+      openedAlertText: alert.sampletext,
+      alertIndex
     })
 
   handleInputChange = e => this.setState({ openedAlertText: e.target.value })
 
-  saveEdits = () => {
+  saveEdits = index => {
     this.setState({ loadingAlerts: true })
-    let id = this.state.openedAlertId
-    let text = this.state.openedAlertText
-    text = text.replace(/\n/g, "<br>")
+
+    const { openedAlertText, openedAlertId, currentlyShownAlert } = this.state
+    let id = openedAlertId
+    let text = openedAlertText.replace(/\n/g, "<br>")
+
     alerts
       .saveEdits(text, id)
       .then(response => {
         this.setState({ alertsList: response, loadingAlerts: false })
+
+        if (index === Number(currentlyShownAlert)) {
+          this.showAlert(text, index)()
+          this.closeEditor()
+        } else {
+          this.closeEditor()
+        }
       })
       .catch(() => {})
   }
@@ -81,25 +94,26 @@ export default class Alerts extends React.Component {
       openedAlertText: ""
     })
 
-  renderAlertEditor = () =>
-    this.state.openedAlertId || !this.state.openedAlertId === "" ? (
-      <div className="alertEditor">
-        <div style={{ position: "relative" }}>
-          <img src={fireDrillPic} alt="alert" className="alertsImageInEditor" />
-          <textarea
-            className="alertEditorText"
-            value={this.state.openedAlertText.replace(/<br>/g, "\n")}
-            onChange={this.handleInputChange}
-          />
-          <button className="saveEditsButton" onClick={this.saveEdits}>
-            Save Edits
-          </button>
-          <button className="saveAsNewButton" onClick={this.saveAsNew}>
-            Save As New Alert / Close
-          </button>
-        </div>
-      </div>
+  closeEditor = () => {
+    this.setState({
+      openedAlertText: "",
+      openedAlertId: ""
+    })
+  }
+
+  renderAlertEditor = () => {
+    const { openedAlertId, openedAlertText, alertIndex } = this.state
+    return openedAlertId || !openedAlertId === "" ? (
+      <AlertEditor
+        openedAlertText={openedAlertText.replace(/<br>/g, "\n")}
+        handleInputChange={this.handleInputChange}
+        saveEdits={this.saveEdits}
+        saveAsNew={this.saveAsNew}
+        alertIndex={alertIndex}
+        closeEditor={this.closeEditor}
+      />
     ) : null
+  }
 
   clearAlerts = () =>
     this.setState({ alertsShown: false }, () =>
@@ -212,7 +226,7 @@ export default class Alerts extends React.Component {
               )}
             </div>
             {this.state.loadingAlerts ? "Loading..." : this.renderAlerts()}
-            {this.state.loadingAlerts ? "Loading..." : this.renderAlertEditor()}
+            {this.state.loadingAlerts ? " " : this.renderAlertEditor()}
           </div>
         </div>
       </Layout>

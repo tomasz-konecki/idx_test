@@ -24,7 +24,6 @@ class App extends Component {
 
   componentDidMount() {
     localStorage.clear()
-    // console.log("APP >>>", Boolean(localStorage.getItem("selectedServer")))
   }
 
   render() {

@@ -22,6 +22,7 @@ class _Alerts {
         })
     })
   }
+
   clear(serverProductkey) {
     serverProductkey = serverProductkey || idtservers.getSelected()
     if (!serverProductkey)
@@ -49,6 +50,7 @@ class _Alerts {
         })
     })
   }
+
   show(text, alertIndex, serverProductkey) {
     serverProductkey = serverProductkey || idtservers.getSelected()
     if (!serverProductkey)
@@ -76,6 +78,7 @@ class _Alerts {
         })
     })
   }
+
   saveEdits(text, alertId, serverProductkey) {
     serverProductkey = serverProductkey || idtservers.getSelected()
     if (!serverProductkey)
@@ -103,6 +106,7 @@ class _Alerts {
         })
     })
   }
+
   saveAsNew(text, editedAlertId, serverProductkey) {
     serverProductkey = serverProductkey || idtservers.getSelected()
     if (!serverProductkey)

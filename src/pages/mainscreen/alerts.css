@@ -50,14 +50,14 @@
 
 .alertEditor {
   position: absolute;
-  left: 400px;
-  top: 0px;
+  left: 500px;
+  top: 130px;
   background-color: whitesmoke;
   box-shadow: 1px 5px 10px;
   margin-bottom: 20px;
   width: 616px; /* 20 + 576 + 20  */
-  height: 474px; /* 20 + 324 + 10 + 100 + 20 */
-  border-radius: 30px;
+  height: 490px; /* 20 + 324 + 10 + 100 + 20 */
+  border-radius: 10px;
 }
 
 .alertsImageInEditor {

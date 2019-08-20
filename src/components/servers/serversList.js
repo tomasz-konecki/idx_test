@@ -19,9 +19,7 @@ const useStyles = makeStyles(theme => ({
   listItem: {
     height: `2rem`
   },
-  serverName: {
-    color: `red`
-  },
+
   buttonDark: {
     margin: theme.spacing(0),
     color: `#0D7BC0`,
@@ -42,6 +40,8 @@ const useStyles = makeStyles(theme => ({
 export default function ServersList(props) {
   const [currentServer, setCurrentServer] = useState("")
   const classes = useStyles()
+
+  console.log("SERVERS LIST >>>", props.servers)
 
   const handleSelect = server => props.selectServer(server)()
 
@@ -79,8 +79,22 @@ export default function ServersList(props) {
               />
             </ListItemIcon>
             <ListItemText
-              secondary={server.name.toUpperCase()}
-              className={classes.serverName}
+              secondary={
+                <span style={{ color: `#333` }}>
+                  {server.name.toUpperCase()}
+                </span>
+              }
+            />
+            <ListItemText
+              secondary={
+                server.currentAlert ? (
+                  <span
+                    style={{ fontSize: `12px`, textTransform: `uppercase` }}
+                  >
+                    - Displaying alert -
+                  </span>
+                ) : null
+              }
             />
             <span
               className="loading dots3"
@@ -94,6 +108,7 @@ export default function ServersList(props) {
                     : 0
               }}
             ></span>
+
             <Button
               className={classes.buttonDark}
               onClick={() => handleShowEndpoints(server.productkey)}

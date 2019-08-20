@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     height: `356px`,
     position: `relative`,
     marginRight: `1.6rem`,
-    marginBottom: `1.6rem`
+    marginBottom: `1.6rem`,
+    backgroundColor: `whitesmoke`
   },
   cardSelected: {
     maxWidth: `19.15rem`,
@@ -25,7 +26,8 @@ const useStyles = makeStyles(theme => ({
     position: `relative`,
     marginRight: `1.6rem`,
     marginBottom: `1.6rem`,
-    border: `3px solid #3CB371`
+    border: `4px solid #3CB371`,
+    backgroundColor: `whitesmoke`
   },
   media: {
     height: 0,
@@ -59,7 +61,7 @@ export default function Alert(props) {
     alertsShown
   } = props
 
-  const handleEdit = alert => openAlertEditor(alert)()
+  const handleEdit = alert => openAlertEditor(alert, alertIndex)()
   const handleShow = alert => showAlert(alert, alertIndex)()
 
   console.log("CURRENTLY SHOWN ALERT:", currentlyShownAlert)
@@ -94,7 +96,7 @@ export default function Alert(props) {
         <Button
           variant="outlined"
           className={classes.button}
-          onClick={() => handleEdit(alert)}
+          onClick={() => handleEdit(alert, alertIndex)}
         >
           Edit
         </Button>

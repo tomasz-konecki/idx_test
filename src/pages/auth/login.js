@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     display: `flex`,
     flexDirection: `column`,
     alignItems: `center`,
-    paddingTop: `60px`
+    paddingTop: `8rem`
   },
   form: {
     width: "100%", // Fix IE 11 issue.

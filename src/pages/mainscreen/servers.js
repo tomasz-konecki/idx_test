@@ -24,6 +24,21 @@ export default class Servers extends React.Component {
     channels: []
   }
 
+  getServers = () => {
+    idtservers
+      .get()
+      .then(response => {
+        this.setState({
+          idtservers: response,
+          loadingServers: false
+        })
+      })
+      .catch(error => {
+        alert(error)
+        this.setState({ idtservers: [] })
+      })
+  }
+
   showEndpoints = productkey => () => {
     this.setState(prevState => ({
       loadingEndpoints: true,
@@ -79,22 +94,7 @@ export default class Servers extends React.Component {
   }
 
   componentDidMount() {
-    // this.setState({ selectedServer: idtservers.getSelected() })
-    this.setState({ loadingServers: true })
-
-    idtservers
-      .get()
-      .then(response => {
-        console.log(response)
-        this.setState({
-          idtservers: response,
-          loadingServers: false
-        })
-      })
-      .catch(error => {
-        alert(error)
-        this.setState({ idtservers: [] })
-      })
+    this.setState({ loadingServers: true }, () => this.getServers())
   }
 
   render() {
