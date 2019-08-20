@@ -109,6 +109,7 @@ class _Alerts {
 
   saveAsNew(text, editedAlertId, serverProductkey) {
     serverProductkey = serverProductkey || idtservers.getSelected()
+
     if (!serverProductkey)
       return new Promise((_, reject) =>
         reject("No product key passed and no server selected")

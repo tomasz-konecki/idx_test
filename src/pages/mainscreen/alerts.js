@@ -6,11 +6,13 @@ import Button from "@material-ui/core/Button"
 import Menu from "../../components/layout/menu"
 import Alert from "../../components/alerts/alert"
 import AlertEditor from "../../components/alerts/alertEditor"
+import Loader from "../../components/loaders/loader-small"
+
 import alerts from "../../utils/alerts"
 import idtservers from "../../utils/idtservers"
 
-import fireDrillPic from "../../assets/img/firedrill.png"
 import { pageStyles } from "../../data/styles"
+
 import "./alerts.css"
 
 export default class Alerts extends React.Component {
@@ -46,10 +48,7 @@ export default class Alerts extends React.Component {
   }
 
   getCurrentlyShownAlert = async () => {
-    console.log(">>> getCurrentlyShownAlert")
     const currentlyShownAlert = await idtservers.getCurrentAlert()
-    console.log(currentlyShownAlert)
-
     this.setState({
       alertsShown: currentlyShownAlert ? true : false,
       currentlyShownAlert
@@ -88,11 +87,14 @@ export default class Alerts extends React.Component {
       .catch(() => {})
   }
 
-  saveAsNew = () =>
-    this.setState({
-      openedAlertId: "",
-      openedAlertText: ""
+  saveAsNew = () => {
+    const { openedAlertText, openedAlertId } = this.state
+    alerts.saveAsNew(openedAlertText, openedAlertId).then(res => {
+      console.log(res)
+      this.closeEditor()
+      this.loadAlerts()
     })
+  }
 
   closeEditor = () => {
     this.setState({
@@ -225,7 +227,7 @@ export default class Alerts extends React.Component {
                 </Button>
               )}
             </div>
-            {this.state.loadingAlerts ? "Loading..." : this.renderAlerts()}
+            {this.state.loadingAlerts ? <Loader /> : this.renderAlerts()}
             {this.state.loadingAlerts ? " " : this.renderAlertEditor()}
           </div>
         </div>
