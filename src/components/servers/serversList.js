@@ -6,7 +6,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import ComputerIcon from "@material-ui/icons/Computer"
 import Button from "@material-ui/core/Button"
+import Chip from "@material-ui/core/Chip"
 import "../../../node_modules/text-spinners/spinners.css"
+
+import CircularLoader from "../../components/loaders/circular-progress"
 
 import Endpoints from "./endpoints/endpoints"
 import Channels from "./channels/channels"
@@ -17,9 +20,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: `#E5E5E5`
   },
   listItem: {
-    height: `2rem`
+    height: `2rem`,
+    paddingTop: `1.3rem`
   },
-
   buttonDark: {
     margin: theme.spacing(0),
     color: `#0D7BC0`,
@@ -34,14 +37,17 @@ const useStyles = makeStyles(theme => ({
   },
   divider: {
     borderBottom: `1px solid #ccc`
+  },
+  chip: {
+    fontSize: `12px`,
+    textTransform: `uppercase`,
+    background: `#b7e5cb`
   }
 }))
 
 export default function ServersList(props) {
   const [currentServer, setCurrentServer] = useState("")
   const classes = useStyles()
-
-  console.log("SERVERS LIST >>>", props.servers)
 
   const handleSelect = server => props.selectServer(server)()
 
@@ -88,26 +94,23 @@ export default function ServersList(props) {
             <ListItemText
               secondary={
                 server.currentAlert ? (
-                  <span
-                    style={{ fontSize: `12px`, textTransform: `uppercase` }}
-                  >
-                    - Displaying alert -
-                  </span>
+                  <Chip label="- Displaying alert -" className={classes.chip} />
                 ) : null
               }
             />
-            <span
-              className="loading dots3"
-              style={{
-                color: `#0D7BC0`,
-                opacity:
+
+            <div style={{ transform: `translate(12px, -6px)` }}>
+              <CircularLoader
+                size={15}
+                opacity={
                   props.loadingEndpoints &&
                   server.productkey === currentServer &&
                   props.endpointsShown
                     ? 1
                     : 0
-              }}
-            ></span>
+                }
+              />
+            </div>
 
             <Button
               className={classes.buttonDark}
@@ -124,19 +127,6 @@ export default function ServersList(props) {
               Endpoints
             </Button>
 
-            <span
-              className="loading dots3"
-              style={{
-                color: `#0D7BC0`,
-                opacity:
-                  props.loadingChannels &&
-                  server.productkey === currentServer &&
-                  props.channelsShown
-                    ? 1
-                    : 0
-              }}
-            ></span>
-
             <Button
               className={classes.buttonDark}
               onClick={() => handleShowChannels(server.productkey)}
@@ -151,6 +141,20 @@ export default function ServersList(props) {
             >
               Channels
             </Button>
+
+            <div style={{ transform: `translate(0px, -6px)` }}>
+              <CircularLoader
+                size={15}
+                opacity={
+                  props.loadingChannels &&
+                  server.productkey === currentServer &&
+                  props.channelsShown
+                    ? 1
+                    : 0
+                }
+              />
+            </div>
+
             <Button
               className={classes.buttonLight}
               onClick={() =>

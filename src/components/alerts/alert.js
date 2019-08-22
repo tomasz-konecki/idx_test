@@ -4,17 +4,17 @@ import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
 import CardMedia from "@material-ui/core/CardMedia"
 import CardActions from "@material-ui/core/CardActions"
-// import IconButton from "@material-ui/core/IconButton"
+import IconButton from "@material-ui/core/IconButton"
 import { red } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
-// import CloseIcon from "@material-ui/icons/Close"
+import CloseIcon from "@material-ui/icons/Close"
 
 import fireDrillPic from "../../assets/img/firedrill.png"
 
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: `19.15rem`,
-    height: `356px`,
+    height: `370px`,
     position: `relative`,
     marginRight: `1.6rem`,
     marginBottom: `1.6rem`,
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
   cardSelected: {
     maxWidth: `19.15rem`,
-    height: `356px`,
+    height: `370px`,
     position: `relative`,
     marginRight: `1.6rem`,
     marginBottom: `1.6rem`,
@@ -58,13 +58,13 @@ export default function Alert(props) {
     openAlertEditor,
     showAlert,
     currentlyShownAlert,
-    alertsShown
+    alertsShown,
+    handleRemoveAlert
   } = props
 
   const handleEdit = alert => openAlertEditor(alert, alertIndex)()
   const handleShow = alert => showAlert(alert, alertIndex)()
-
-  console.log("CURRENTLY SHOWN ALERT:", currentlyShownAlert)
+  const handleRemove = alert => handleRemoveAlert(alert)
 
   return (
     <Card
@@ -75,11 +75,11 @@ export default function Alert(props) {
       }
     >
       <CardHeader
-        // action={
-        //   <IconButton aria-label="close">
-        //     <CloseIcon />
-        //   </IconButton>
-        // }
+        action={
+          <IconButton aria-label="close" onClick={() => handleRemove(alert)}>
+            <CloseIcon />
+          </IconButton>
+        }
         subheader={alert.name}
       />
       <CardMedia

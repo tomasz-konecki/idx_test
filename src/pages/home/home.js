@@ -3,6 +3,9 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import Layout from "../../components/layout/layout"
 import SEO from "../../components/layout/seo"
 import { pageStyles } from "../../data/styles"
+
+import LogoIDX from "../../assets/img/logo-idx.png"
+
 import "./home.css"
 
 export default function Home() {
@@ -12,8 +15,9 @@ export default function Home() {
       <CssBaseline />
       <div style={styles.mainContainer}>
         <div className="idx-title-container">
-          <div className="parallelogram" />
-          <h1 className="idx-title">IDX</h1>
+          {/* <div className="parallelogram" />
+          <h1 className="idx-title">IDX</h1> */}
+          <img src={LogoIDX} alt="IDX Logo" />
         </div>
       </div>
     </Layout>

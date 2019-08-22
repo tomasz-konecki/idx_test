@@ -1,36 +1,36 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import Chip from "@material-ui/core/Chip"
+import { makeStyles } from "@material-ui/core/styles"
 import logo from "../../images/intevi-logo.png"
 import { Cookies } from "react-cookie"
 const cookies = new Cookies()
 
+const useStyles = makeStyles(theme => ({
+  chip: {
+    position: `absolute`,
+    left: `15.5rem`,
+    bottom: `2.1rem`,
+    color: `#eee`,
+    background: `#0078c1`,
+    fontSize: `0.7rem`
+  }
+}))
+
 const Header = ({ siteTitle }) => {
+  const classes = useStyles()
   const selectedServer = localStorage.getItem("selectedServer")
   return (
     <div style={{ width: `100%`, position: `fixed`, zIndex: `10` }}>
       <header style={{ background: `#000`, position: `relative` }}>
-        <div
-          style={{
-            position: `absolute`,
-            left: `15.5rem`,
-            bottom: `2.1rem`,
-            color: `#ddd`,
-            background: `#494949`,
-            paddingLeft: `0.5rem`,
-            paddingRight: `0.5rem`,
-            borderRadius: `3px`
-          }}
-        >
-          {selectedServer ? (
-            <span>
-              <span style={{ fontSize: `13px` }}>SELECTED SERVER:&nbsp;</span>
-              <span style={{ fontSize: `1rem` }}>{selectedServer}</span>
-            </span>
-          ) : (
-            ""
-          )}
-        </div>
+        {selectedServer ? (
+          <Chip
+            label={`SELECTED SERVER: ${selectedServer}`}
+            className={classes.chip}
+          />
+        ) : null}
+
         <div
           style={{
             margin: `0`,

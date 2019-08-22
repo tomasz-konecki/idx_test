@@ -1,7 +1,7 @@
-@font-face {
-  /* font-family: "Roboto";
-  src: url("../../assets/Roboto-Light.ttf"); */
-}
+/* @font-face {
+  font-family: "Roboto";
+  src: url("../../assets/Roboto-Light.ttf");
+} */
 
 .alertsImageInList {
   width: 288px;
@@ -10,15 +10,15 @@
   left: 20px;
   top: 20px;
 }
-.alertDiv {
+/* .alertDiv {
   position: relative;
   background-color: whitesmoke;
   box-shadow: 1px 5px 10px;
   margin-top: 20px;
-  width: 328px;
+  width: 340px;
   height: 262px;
   border-radius: 15px;
-}
+} */
 
 .editAlertButton {
   position: absolute;

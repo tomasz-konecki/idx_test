@@ -6,7 +6,14 @@ import Button from "@material-ui/core/Button"
 import Menu from "../../components/layout/menu"
 import Alert from "../../components/alerts/alert"
 import AlertEditor from "../../components/alerts/alertEditor"
-import Loader from "../../components/loaders/loader-small"
+import LinearProgress from "@material-ui/core/LinearProgress"
+import SnackbarSuccess from "../../components/snackbars/snackbarSuccess"
+
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
 
 import alerts from "../../utils/alerts"
 import idtservers from "../../utils/idtservers"
@@ -23,7 +30,11 @@ export default class Alerts extends React.Component {
     alertsList: [],
     alertsShown: false,
     currentlyShownAlert: "",
-    alertIndex: undefined
+    alertIndex: undefined,
+    openDialog: false,
+    alertToBeRemoved: {},
+    showSnackbar: false,
+    snackMssg: ""
   }
 
   componentDidMount() {
@@ -92,6 +103,7 @@ export default class Alerts extends React.Component {
     alerts.saveAsNew(openedAlertText, openedAlertId).then(res => {
       console.log(res)
       this.closeEditor()
+      this.toggleSnackBar("A new alert has been added")
       this.loadAlerts()
     })
   }
@@ -124,12 +136,27 @@ export default class Alerts extends React.Component {
         res === "OK"
           ? idtservers.setCurrentAlert("").then(res => {
               res.status === 200
-                ? this.setState({ currentlyShownAlert: "" })
+                ? this.setState({ currentlyShownAlert: "" }, () => {
+                    this.toggleSnackBar("Alert is off")
+                  })
                 : alert(`Something's not right with setting current alert...`)
             })
           : alert(`Something's not right with clearing alerts...`)
       })
     )
+
+  toggleSnackBar = snackMssg => {
+    this.setState(prevState => ({
+      showSnackbar: !prevState.showSnackbar,
+      snackMssg
+    }))
+  }
+
+  resetSnackBar = () => {
+    this.setState({
+      showSnackbar: false
+    })
+  }
 
   showAlert = (text, alertIndex) => () => {
     alerts
@@ -143,6 +170,7 @@ export default class Alerts extends React.Component {
               },
               () => {
                 idtservers.setCurrentAlert(alertIndex).then(res => {
+                  this.toggleSnackBar("Alert is now being displayed")
                   console.log("showAlert ==>", res)
                   if (res.status !== 200) {
                     alert(
@@ -155,6 +183,30 @@ export default class Alerts extends React.Component {
           : alert(`Something's not right in showAlert method...`)
       )
       .catch(err => alert(err))
+  }
+
+  handleRemoveAlert = alertToBeRemoved => {
+    this.setState(
+      {
+        alertToBeRemoved
+      },
+      () => this.toggleDialog()
+    )
+  }
+
+  toggleDialog = () =>
+    this.setState(prevState => ({
+      openDialog: !prevState.openDialog
+    }))
+
+  removeAlert = () => {
+    alerts.remove(this.state.alertToBeRemoved.id).then(res => {
+      this.setState({ alertToBeRemoved: {} }, () => {
+        this.toggleDialog()
+        this.toggleSnackBar("Alert has been removed")
+        this.loadAlerts()
+      })
+    })
   }
 
   renderAlerts = () => {
@@ -173,6 +225,7 @@ export default class Alerts extends React.Component {
             showAlert={this.showAlert}
             currentlyShownAlert={currentlyShownAlert}
             alertsShown={alertsShown}
+            handleRemoveAlert={this.handleRemoveAlert}
           />
         ))}
       </div>
@@ -180,7 +233,9 @@ export default class Alerts extends React.Component {
   }
 
   render() {
-    const { alertsShown } = this.state
+    const { alertsShown, showSnackbar, snackMssg } = this.state
+
+    console.log("SHOW SNACK", showSnackbar)
 
     const active = localStorage.getItem("selectedServer")
       ? localStorage.getItem("selectedServer") === ""
@@ -197,6 +252,11 @@ export default class Alerts extends React.Component {
             <Menu path={this.props.path} active={active} />
           </div>
           <div style={styles.pageContents}>
+            {this.state.loadingAlerts ? (
+              <div style={{ flexGrow: 1 }}>
+                <LinearProgress />
+              </div>
+            ) : null}
             <div style={styles.btnContainer}>
               {alertsShown ? (
                 <Button
@@ -227,10 +287,38 @@ export default class Alerts extends React.Component {
                 </Button>
               )}
             </div>
-            {this.state.loadingAlerts ? <Loader /> : this.renderAlerts()}
+            {this.state.loadingAlerts ? null : this.renderAlerts()}
             {this.state.loadingAlerts ? " " : this.renderAlertEditor()}
           </div>
         </div>
+        {showSnackbar && (
+          <SnackbarSuccess
+            mssg="Alerts are off"
+            resetSnackBar={this.resetSnackBar}
+            snackMssg={snackMssg}
+          />
+        )}
+        <Dialog
+          open={this.state.openDialog}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Removing alert</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to remove this alert?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.toggleDialog} color="primary">
+              No
+            </Button>
+            <Button onClick={this.removeAlert} color="secondary" autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Layout>
     )
   }
@@ -246,7 +334,7 @@ const styles = {
   },
   btnContainer: {
     height: `2.2rem`,
-    paddingRight: `7rem`,
+    paddingRight: `4rem`,
     marginTop: `0.5rem`,
     textAlign: `right`
   },

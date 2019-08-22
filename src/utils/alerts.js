@@ -135,6 +135,32 @@ class _Alerts {
         })
     })
   }
+
+  remove(alertId, serverProductkey) {
+    serverProductkey = serverProductkey || idtservers.getSelected()
+    if (!serverProductkey)
+      return new Promise((_, reject) =>
+        reject("No product key passed and no server selected.")
+      )
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          `http://intevi.chmura/deviceapi/alerts/delete/${alertId}`,
+          {},
+          {
+            headers: {
+              productkey: serverProductkey
+            }
+          }
+        )
+        .then(response => {
+          resolve(response.data.alert)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default new _Alerts()
