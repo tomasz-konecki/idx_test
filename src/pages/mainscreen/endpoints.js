@@ -5,8 +5,6 @@ import SEO from "../../components/layout/seo"
 import Menu from "../../components/layout/menu"
 import endpoints from "../../utils/endpoints"
 
-import SnackbarSuccess from "../../components/snackbars/snackbarSuccess"
-
 import { pageStyles } from "../../data/styles"
 
 export default class Endpoints extends React.Component {
@@ -29,8 +27,6 @@ export default class Endpoints extends React.Component {
           </div>
           <div style={styles.pageContents}>
             <h1>Endpoints</h1>
-
-            <SnackbarSuccess mssg="Endpoints loaded successfully!" />
           </div>
         </div>
       </Layout>

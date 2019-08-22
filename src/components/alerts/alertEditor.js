@@ -9,7 +9,9 @@ import { red } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
 import CloseIcon from "@material-ui/icons/Close"
 
-import fireDrillPic from "../../assets/img/firedrill.png"
+import images from "../../utils/images"
+
+// import fireDrillPic from "../../assets/img/firedrill.png"
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -37,8 +39,6 @@ export default function AlertEditor(props) {
   const handleSaveAsNew = () => props.saveAsNew()
   const handleCloseEditor = () => props.closeEditor()
 
-  // console.log("ALERT EDITOR, ALERT INDEX:", props.alertIndex)
-
   return (
     <div className="alertEditor">
       <CardHeader
@@ -50,7 +50,11 @@ export default function AlertEditor(props) {
         }
       />
       <div style={{ position: "relative" }}>
-        <img src={fireDrillPic} alt="alert" className="alertsImageInEditor" />
+        <img
+          src={images.get("alerts/miniature-" + props.alert.image)}
+          alt="alert"
+          className="alertsImageInEditor"
+        />
         <textarea
           className="alertEditorText"
           value={props.openedAlertText.replace(/<br>/g, "\n")}

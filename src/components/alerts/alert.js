@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
@@ -9,7 +9,11 @@ import { red } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
 import CloseIcon from "@material-ui/icons/Close"
 
+import images from "../../utils/images"
+
 import fireDrillPic from "../../assets/img/firedrill.png"
+
+// images.get("alerts/miniature-" + alert.image)
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -52,6 +56,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function Alert(props) {
   const classes = useStyles()
+  // const [image, setCount] = useState(fireDrillPic)
+
   const {
     alert,
     alertIndex,
@@ -82,11 +88,12 @@ export default function Alert(props) {
         }
         subheader={alert.name}
       />
-      <CardMedia
-        className={classes.media}
-        image={fireDrillPic}
-        title="Fire drill"
-      />
+      <div style={{ marginLeft: 10, marginRight: 10 }}>
+        <img
+          src={images.get("alerts/miniature-" + alert.image)}
+          alt="Fire drill"
+        />
+      </div>
       <div className="alertText">
         {alert.sampletext
           .split(/(<br>)/g)

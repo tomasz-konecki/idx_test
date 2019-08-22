@@ -86,6 +86,7 @@ class _Alerts {
         reject("No product key passed and no server selected")
       )
     return new Promise((resolve, reject) => {
+      text = text.replace(/\n/g, "<br>")
       axios
         .post(
           `http://intevi.chmura/deviceapi/alerts/saveedited/${alertId}`,
@@ -115,6 +116,7 @@ class _Alerts {
         reject("No product key passed and no server selected")
       )
     return new Promise((resolve, reject) => {
+      text = text.replace(/\n/g, "<br>")
       axios
         .post(
           `http://intevi.chmura/deviceapi/alerts/saveasnewalert/${editedAlertId}`,

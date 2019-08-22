@@ -17,6 +17,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 
 import alerts from "../../utils/alerts"
 import idtservers from "../../utils/idtservers"
+import images from "../../utils/images"
 
 import { pageStyles } from "../../data/styles"
 
@@ -34,23 +35,39 @@ export default class Alerts extends React.Component {
     openDialog: false,
     alertToBeRemoved: {},
     showSnackbar: false,
-    snackMssg: ""
+    snackMssg: "",
+    imagesLoaded: false
   }
 
   componentDidMount() {
     this.setState({ loadingAlerts: true }, () => this.loadAlerts())
   }
 
+  componentWillUnmount() {
+    images.clearCache()
+  }
+
+  loadImages = async () => {
+    for (let alert of this.state.alertsList) {
+      if (!images.get("alerts/miniature-" + alert.image)) {
+        await images.load("alerts/miniature-" + alert.image)
+        this.forceUpdate()
+      }
+    }
+    this.getCurrentlyShownAlert()
+  }
+
   loadAlerts = () => {
     alerts
       .get()
       .then(response => {
+        console.log(response)
         this.setState(
           {
             alertsList: response,
             loadingAlerts: false
           },
-          () => this.getCurrentlyShownAlert()
+          () => this.loadImages()
         )
       })
       .catch(error => {
@@ -67,7 +84,6 @@ export default class Alerts extends React.Component {
   }
 
   openAlertEditor = (alert, alertIndex) => () =>
-    console.log(alert) ||
     this.setState({
       openedAlertId: alert.id,
       openedAlertText: alert.sampletext,
@@ -81,7 +97,7 @@ export default class Alerts extends React.Component {
 
     const { openedAlertText, openedAlertId, currentlyShownAlert } = this.state
     let id = openedAlertId
-    let text = openedAlertText.replace(/\n/g, "<br>")
+    let text = openedAlertText
 
     alerts
       .saveEdits(text, id)
@@ -91,8 +107,10 @@ export default class Alerts extends React.Component {
         if (index === Number(currentlyShownAlert)) {
           this.showAlert(text, index)()
           this.closeEditor()
+          this.toggleSnackBar("Alert has been edited")
         } else {
           this.closeEditor()
+          this.toggleSnackBar("Alert has been edited")
         }
       })
       .catch(() => {})
@@ -101,7 +119,6 @@ export default class Alerts extends React.Component {
   saveAsNew = () => {
     const { openedAlertText, openedAlertId } = this.state
     alerts.saveAsNew(openedAlertText, openedAlertId).then(res => {
-      console.log(res)
       this.closeEditor()
       this.toggleSnackBar("A new alert has been added")
       this.loadAlerts()
@@ -125,6 +142,7 @@ export default class Alerts extends React.Component {
         saveAsNew={this.saveAsNew}
         alertIndex={alertIndex}
         closeEditor={this.closeEditor}
+        alert={this.state.alertsList[alertIndex]}
       />
     ) : null
   }
@@ -293,7 +311,7 @@ export default class Alerts extends React.Component {
         </div>
         {showSnackbar && (
           <SnackbarSuccess
-            mssg="Alerts are off"
+            // mssg="Alerts are off"
             resetSnackBar={this.resetSnackBar}
             snackMssg={snackMssg}
           />
