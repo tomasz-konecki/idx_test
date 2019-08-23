@@ -57,14 +57,13 @@ export default class Alerts extends React.Component {
     this.getCurrentlyShownAlert()
   }
 
-  loadAlerts = () => {
+  loadAlerts = () =>
     alerts
       .get()
-      .then(response => {
-        console.log(response)
+      .then(alertsList => {
         this.setState(
           {
-            alertsList: response,
+            alertsList,
             loadingAlerts: false
           },
           () => this.loadImages()
@@ -73,7 +72,6 @@ export default class Alerts extends React.Component {
       .catch(error => {
         this.setState({ alertsList: [] })
       })
-  }
 
   getCurrentlyShownAlert = async () => {
     const currentlyShownAlert = await idtservers.getCurrentAlert()
@@ -118,19 +116,18 @@ export default class Alerts extends React.Component {
 
   saveAsNew = () => {
     const { openedAlertText, openedAlertId } = this.state
-    alerts.saveAsNew(openedAlertText, openedAlertId).then(res => {
+    alerts.saveAsNew(openedAlertText, openedAlertId).then(_ => {
       this.closeEditor()
       this.toggleSnackBar("A new alert has been added")
       this.loadAlerts()
     })
   }
 
-  closeEditor = () => {
+  closeEditor = () =>
     this.setState({
       openedAlertText: "",
       openedAlertId: ""
     })
-  }
 
   renderAlertEditor = () => {
     const { openedAlertId, openedAlertText, alertIndex } = this.state
@@ -150,7 +147,6 @@ export default class Alerts extends React.Component {
   clearAlerts = () =>
     this.setState({ alertsShown: false }, () =>
       alerts.clear().then(res => {
-        console.log("clearAlerts", res)
         res === "OK"
           ? idtservers.setCurrentAlert("").then(res => {
               res.status === 200
@@ -163,18 +159,16 @@ export default class Alerts extends React.Component {
       })
     )
 
-  toggleSnackBar = snackMssg => {
+  toggleSnackBar = snackMssg =>
     this.setState(prevState => ({
       showSnackbar: !prevState.showSnackbar,
       snackMssg
     }))
-  }
 
-  resetSnackBar = () => {
+  resetSnackBar = () =>
     this.setState({
       showSnackbar: false
     })
-  }
 
   showAlert = (text, alertIndex) => () => {
     alerts
@@ -189,7 +183,6 @@ export default class Alerts extends React.Component {
               () => {
                 idtservers.setCurrentAlert(alertIndex).then(res => {
                   this.toggleSnackBar("Alert is now being displayed")
-                  console.log("showAlert ==>", res)
                   if (res.status !== 200) {
                     alert(
                       `showAlert method => Something's not right with setting current alert...`
@@ -309,7 +302,6 @@ export default class Alerts extends React.Component {
         </div>
         {showSnackbar && (
           <SnackbarSuccess
-            // mssg="Alerts are off"
             resetSnackBar={this.resetSnackBar}
             snackMssg={snackMssg}
           />

@@ -12,6 +12,7 @@ import TableHead from "@material-ui/core/TableHead"
 import TableRow from "@material-ui/core/TableRow"
 import CloseIcon from "@material-ui/icons/Close"
 import CheckIcon from "@material-ui/icons/Check"
+import SnackbarSuccess from "../../components/snackbars/snackbarSuccess"
 
 import { pageStyles } from "../../data/styles"
 import channels from "../../utils/channels"
@@ -20,14 +21,21 @@ export default class AssignChannelsToGroups extends React.Component {
   state = {
     channelsList: [],
     loadingChannels: false,
-    changingChannelAssignment: false
+    changingChannelAssignment: false,
+    showSnackbar: false,
+    snackMssg: ""
   }
 
-  toggleLoading = () => {
+  toggleLoading = () =>
     this.setState(prevState => ({
       loadingChannels: !prevState.loadingChannels
     }))
-  }
+
+  toggleSnackBar = snackMssg =>
+    this.setState(prevState => ({
+      showSnackbar: !prevState.showSnackbar,
+      snackMssg
+    }))
 
   loadChannels = () => {
     channels
@@ -67,7 +75,11 @@ export default class AssignChannelsToGroups extends React.Component {
         this.state.channelsList[channelIndex].group[groupIndex].available = true
       })
       .catch(error => {})
-      .finally(() => this.setState({ changingChannelAssignment: false }))
+      .finally(() =>
+        this.setState({ changingChannelAssignment: false }, () =>
+          this.toggleSnackBar("Channel assigned to group")
+        )
+      )
   }
 
   removeFromGroup = (channelId, groupId) => () => {
@@ -89,7 +101,11 @@ export default class AssignChannelsToGroups extends React.Component {
       .catch(error => {
         alert(error)
       })
-      .finally(() => this.setState({ changingChannelAssignment: false }))
+      .finally(() =>
+        this.setState({ changingChannelAssignment: false }, () =>
+          this.toggleSnackBar("Channel removed from group")
+        )
+      )
   }
 
   renderTableCell(channel, group) {
@@ -148,7 +164,14 @@ export default class AssignChannelsToGroups extends React.Component {
     )
   }
 
+  resetSnackBar = () =>
+    this.setState({
+      showSnackbar: false
+    })
+
   render() {
+    const { showSnackbar, snackMssg } = this.state
+
     const active = localStorage.getItem("selectedServer")
       ? localStorage.getItem("selectedServer") === ""
         ? false
@@ -173,6 +196,13 @@ export default class AssignChannelsToGroups extends React.Component {
             )}
           </div>
         </div>
+        {showSnackbar && (
+          <SnackbarSuccess
+            // mssg="Alerts are off"
+            resetSnackBar={this.resetSnackBar}
+            snackMssg={snackMssg}
+          />
+        )}
       </Layout>
     )
   }
