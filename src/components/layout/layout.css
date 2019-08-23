@@ -642,3 +642,7 @@ pre tt:after {
   cursor: pointer;
   background: #0078c1;
 }
+
+.assign-channels-icon:hover {
+  cursor: pointer;
+}

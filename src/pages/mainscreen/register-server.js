@@ -195,13 +195,14 @@ const styles = {
     marginTop: `1rem`,
     marginLeft: `1.3rem`,
     paddingBottom: `2rem`,
-    background: `#e5e5e5`
+    background: `smokewhite`
   },
   titleContainer: {
     paddingTop: `0.7rem`,
     paddingBottom: `0.8rem`,
     paddingLeft: `2rem`,
-    background: `#bebebe`
+    background: `#ccc`,
+    borderBottom: `1px solid #acacac`
   },
   title: {
     color: `#444`,
