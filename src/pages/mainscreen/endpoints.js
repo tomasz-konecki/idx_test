@@ -3,7 +3,7 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import Layout from "../../components/layout/layout"
 import SEO from "../../components/layout/seo"
 import Menu from "../../components/layout/menu"
-import endpoints from "../../utils/endpoints"
+// import endpoints from "../../utils/endpoints"
 
 import { pageStyles } from "../../data/styles"
 

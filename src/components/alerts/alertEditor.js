@@ -1,31 +1,63 @@
 import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
-// import Card from "@material-ui/core/Card"
-import CardHeader from "@material-ui/core/CardHeader"
-// import CardMedia from "@material-ui/core/CardMedia"
-import CardActions from "@material-ui/core/CardActions"
 import IconButton from "@material-ui/core/IconButton"
-import { red } from "@material-ui/core/colors"
 import Button from "@material-ui/core/Button"
 import CloseIcon from "@material-ui/icons/Close"
 
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+
 import images from "../../utils/images"
 
-// import fireDrillPic from "../../assets/img/firedrill.png"
-
 const useStyles = makeStyles(theme => ({
+  editorContainer: {
+    marginLeft: `auto`,
+    marginRight: `auto`
+  },
+  contentsContainer: {
+    position: `relative`,
+    width: `90%`,
+    overflow: `hidden`,
+    marginLeft: `auto`,
+    marginRight: `auto`
+  },
+  imageContainer: {
+    width: `600px`,
+    height: ``
+  },
+  editorImage: {
+    width: `82%`,
+    height: `100%`
+  },
+  textArea: {
+    position: `absolute`,
+    left: 0,
+    top: -35,
+    width: `100%`,
+    height: 320,
+    textAlign: `center`,
+    color: `#fff`,
+    backgroundColor: `transparent`,
+    fontSize: 17,
+    padding: 0,
+    margin: 0,
+    resize: `none`,
+    border: `none`,
+    outline: `none`,
+    overflow: `auto`
+  },
   button: {
     margin: theme.spacing(1),
     width: `11rem`
   },
-  avatar: {
-    backgroundColor: red[500]
-  },
   buttonsContainer: {
     display: `flex`,
     justifyContent: `space-between`,
-    paddingTop: `20.5rem`,
-    width: `95%`,
+    paddingTop: `1.5rem`,
+    paddingBottom: `1.5rem`,
+    width: `87%`,
     marginLeft: `auto`,
     marginRight: `auto`
   }
@@ -40,27 +72,33 @@ export default function AlertEditor(props) {
   const handleCloseEditor = () => props.closeEditor()
 
   return (
-    <div className="alertEditor">
-      <CardHeader
-        style={{ paddingBottom: 0 }}
-        action={
+    <div>
+      <Dialog
+        open={true}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        className={classes.editorContainer}
+      >
+        <DialogTitle id="alert-dialog-title" style={{ textAlign: `right` }}>
           <IconButton aria-label="close" onClick={handleCloseEditor}>
             <CloseIcon />
           </IconButton>
-        }
-      />
-      <div style={{ position: "relative" }}>
-        <img
-          src={images.get("alerts/miniature-" + props.alert.image)}
-          alt="alert"
-          className="alertsImageInEditor"
-        />
-        <textarea
-          className="alertEditorText"
-          value={props.openedAlertText.replace(/<br>/g, "\n")}
-          onChange={handleInputChange}
-        />
-        <CardActions className={classes.buttonsContainer}>
+        </DialogTitle>
+        <DialogContent className={classes.contentsContainer}>
+          <div className={classes.imageContainer}>
+            <img
+              src={images.get("alerts/miniature-" + props.alert.image)}
+              alt="alert"
+              className={classes.editorImage}
+            />
+          </div>
+          <textarea
+            className={classes.textArea}
+            value={props.openedAlertText.replace(/<br>/g, "\n")}
+            onChange={handleInputChange}
+          />
+        </DialogContent>
+        <DialogActions className={classes.buttonsContainer}>
           <Button
             variant="contained"
             color="secondary"
@@ -71,8 +109,8 @@ export default function AlertEditor(props) {
           <Button variant="contained" color="primary" onClick={handleSaveAsNew}>
             Save As New Alert
           </Button>
-        </CardActions>
-      </div>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }

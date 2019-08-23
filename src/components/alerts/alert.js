@@ -1,8 +1,7 @@
-import React, { useState } from "react"
+import React from "react"
 import { makeStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
-import CardMedia from "@material-ui/core/CardMedia"
 import CardActions from "@material-ui/core/CardActions"
 import IconButton from "@material-ui/core/IconButton"
 import { red } from "@material-ui/core/colors"
@@ -10,10 +9,6 @@ import Button from "@material-ui/core/Button"
 import CloseIcon from "@material-ui/icons/Close"
 
 import images from "../../utils/images"
-
-import fireDrillPic from "../../assets/img/firedrill.png"
-
-// images.get("alerts/miniature-" + alert.image)
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -56,7 +51,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Alert(props) {
   const classes = useStyles()
-  // const [image, setCount] = useState(fireDrillPic)
 
   const {
     alert,
