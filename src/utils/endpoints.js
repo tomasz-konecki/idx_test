@@ -48,7 +48,6 @@ class Endpoints {
       return new Promise((resolve, reject) =>
         reject("No product key and no server selected")
       )
-    // O(n + m)
     let groups = await this.getGroups(productkey)
     let endpoints = await this.get(productkey)
     groups.push({

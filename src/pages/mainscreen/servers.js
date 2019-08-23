@@ -24,7 +24,7 @@ export default class Servers extends React.Component {
     channels: []
   }
 
-  getServers = () => {
+  getServers = () =>
     idtservers
       .get()
       .then(response => {
@@ -37,7 +37,6 @@ export default class Servers extends React.Component {
         alert(error)
         this.setState({ idtservers: [] })
       })
-  }
 
   showEndpoints = productkey => () => {
     this.setState(prevState => ({

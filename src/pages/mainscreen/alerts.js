@@ -253,8 +253,6 @@ export default class Alerts extends React.Component {
   render() {
     const { alertsShown, showSnackbar, snackMssg } = this.state
 
-    console.log("SHOW SNACK", showSnackbar)
-
     const active = localStorage.getItem("selectedServer")
       ? localStorage.getItem("selectedServer") === ""
         ? false
