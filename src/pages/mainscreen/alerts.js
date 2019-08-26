@@ -21,8 +21,6 @@ import images from "../../utils/images"
 
 import { pageStyles } from "../../data/styles"
 
-import "./alerts.css"
-
 export default class Alerts extends React.Component {
   state = {
     loadingAlerts: false,
@@ -32,7 +30,7 @@ export default class Alerts extends React.Component {
     alertsShown: false,
     currentlyShownAlert: "",
     alertIndex: undefined,
-    openDialog: false,
+    openEditor: false,
     alertToBeRemoved: {},
     showSnackbar: false,
     snackMssg: "",
@@ -201,19 +199,19 @@ export default class Alerts extends React.Component {
       {
         alertToBeRemoved
       },
-      () => this.toggleDialog()
+      () => this.toggleAlertEditor()
     )
   }
 
-  toggleDialog = () =>
+  toggleAlertEditor = () =>
     this.setState(prevState => ({
-      openDialog: !prevState.openDialog
+      openEditor: !prevState.openEditor
     }))
 
   removeAlert = () => {
     alerts.remove(this.state.alertToBeRemoved.id).then(res => {
       this.setState({ alertToBeRemoved: {} }, () => {
-        this.toggleDialog()
+        this.toggleAlertEditor()
         this.toggleSnackBar("Alert has been removed")
         this.loadAlerts()
       })
@@ -267,6 +265,14 @@ export default class Alerts extends React.Component {
               </div>
             ) : null}
             <div style={styles.btnContainer}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={this.openAlertCreator}
+              >
+                Create new alert
+              </Button>
+
               {alertsShown ? (
                 <Button
                   style={styles.button}
@@ -307,7 +313,7 @@ export default class Alerts extends React.Component {
           />
         )}
         <Dialog
-          open={this.state.openDialog}
+          open={this.state.openEditor}
           onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -319,7 +325,7 @@ export default class Alerts extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.toggleDialog} color="primary">
+            <Button onClick={this.toggleAlertEditor} color="primary">
               No
             </Button>
             <Button onClick={this.removeAlert} color="secondary" autoFocus>
@@ -343,8 +349,11 @@ const styles = {
   btnContainer: {
     height: `2.2rem`,
     paddingRight: `4rem`,
+    paddingLeft: `1rem`,
     marginTop: `0.5rem`,
-    textAlign: `right`
+    textAlign: `right`,
+    display: `flex`,
+    justifyContent: `space-between`
   },
   button: {
     width: `14rem`

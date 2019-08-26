@@ -46,6 +46,17 @@ const useStyles = makeStyles(theme => ({
     display: `flex`,
     justifyContent: `space-between`,
     paddingTop: `1rem`
+  },
+  alertText: {
+    position: `absolute`,
+    fontFamily: `Roboto`,
+    left: 20,
+    top: 90,
+    width: 288,
+    height: 162,
+    textAlign: `center`,
+    color: `#fff`,
+    fontSize: 8
   }
 }))
 
@@ -89,7 +100,7 @@ export default function Alert(props) {
           alt="Fire drill"
         />
       </div>
-      <div className="alertText">
+      <div className={classes.alertText}>
         {alert.sampletext
           .split(/(<br>)/g)
           .map((e, i) => (e === "<br>" ? <br key={i} /> : e))}
