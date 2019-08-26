@@ -41,7 +41,9 @@ const useStyles = makeStyles(theme => ({
   chip: {
     fontSize: `12px`,
     textTransform: `uppercase`,
-    background: `#b7e5cb`
+    background: `#b7e5cb`,
+    paddingTop: 2,
+    color: `#444`
   }
 }))
 
@@ -91,13 +93,10 @@ export default function ServersList(props) {
                 </span>
               }
             />
-            <ListItemText
-              secondary={
-                server.currentAlert ? (
-                  <Chip label="- Displaying alert -" className={classes.chip} />
-                ) : null
-              }
-            />
+
+            {server.currentAlert ? (
+              <Chip label="- Displaying alert -" className={classes.chip} />
+            ) : null}
 
             <div style={{ transform: `translate(12px, -6px)` }}>
               <CircularLoader
@@ -111,7 +110,6 @@ export default function ServersList(props) {
                 }
               />
             </div>
-
             <Button
               className={classes.buttonDark}
               onClick={() => handleShowEndpoints(server.productkey)}
@@ -126,7 +124,6 @@ export default function ServersList(props) {
             >
               Endpoints
             </Button>
-
             <Button
               className={classes.buttonDark}
               onClick={() => handleShowChannels(server.productkey)}
@@ -141,7 +138,6 @@ export default function ServersList(props) {
             >
               Channels
             </Button>
-
             <div style={{ transform: `translate(0px, -6px)` }}>
               <CircularLoader
                 size={15}
@@ -154,7 +150,6 @@ export default function ServersList(props) {
                 }
               />
             </div>
-
             <Button
               className={classes.buttonLight}
               onClick={() =>
