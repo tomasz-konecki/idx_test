@@ -82,9 +82,10 @@ export default function Alert(props) {
         }
         subheader={alert.name}
       />
-      <div style={{ marginLeft: 10, marginRight: 10 }}>
+      <div style={{ marginLeft: 10, marginRight: 10, height: 210 }}>
         <img
           src={images.get("alerts/miniature-" + alert.image)}
+          style={{ height: `100%`, width: `100%` }}
           alt="Fire drill"
         />
       </div>
