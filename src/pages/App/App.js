@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import PrivateRoute from "../../components/authenticated/PrivateRoute"
 
 import LoginPage from "../auth/login"
-// import Home from "../home/home"
+import Home from "../home/home"
 import Dashborad from "../mainscreen/dashboard"
 import Servers from "../mainscreen/servers"
 import RegisterServer from "../mainscreen/register-server"
@@ -32,7 +32,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/" exact component={Dashborad} />
+          <Route path="/" exact component={Home} />
           <Route
             path="/auth/login"
             render={props => <LoginPage {...props} />}

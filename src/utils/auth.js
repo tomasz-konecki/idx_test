@@ -1,59 +1,45 @@
-import axios from "axios"
 import { Cookies } from "react-cookie"
+import cloud from "./cloud"
 const cookies = new Cookies()
 
 class Auth {
-  constructor() {
-    this.login = this.login.bind(this)
-  }
-
-  login(identifier, password) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post("http://intevi.chmura:1337/auth/local", {
-          identifier,
-          password
-        })
+  login = (email, password) =>
+    new Promise((resolve, reject) => {
+      cloud
+        .sendForm("user/login", { email, password })
         .then(response => {
-          this.token = response.data.jwt
-          this.user = response.data.user
-          cookies.set("token", this.token)
+          this.user = response.user
+          cookies.set("token", response.token)
           resolve(this.user)
         })
         .catch(error => reject(error))
     })
-  }
+
+  logout = () => cookies.remove("token")
+
+  tryToLoginWithCookies = () =>
+    new Promise((resolve, reject) => {
+      if (this.isLoggedIn) return resolve(this.user)
+      if (!this.token) return reject("Couldn't get the token cookie")
+      cloud
+        .sendApiRequest("get", "user/me")
+        .then(response => {
+          this.user = response
+          resolve(this.user)
+        })
+        .catch(error => reject(error))
+    })
 
   get isLoggedIn() {
     return this.token && this.user
   }
 
-  tryToLoginWithCookies() {
-    return new Promise((resolve, reject) => {
-      if (this.isLoggedIn) {
-        resolve()
-      }
-
-      this.token = cookies.get("token")
-
-      if (!this.token) {
-        reject("Couldn't get the token cookie")
-      }
-
-      axios("http://intevi.chmura:1337/users/me", {
-        headers: this.getHeaders()
-      })
-        .then(response => {
-          this.user = response.data
-          resolve(this.user)
-        })
-        .catch(error => reject(error))
-    })
+  get token() {
+    return cookies.get("token")
   }
 
-  getHeaders() {
-    const token = cookies.get("token")
-    return token ? { Authorization: `Bearer ${token}` } : null
+  get headers() {
+    return { Authorization: `Bearer ${this.token}` }
   }
 }
 

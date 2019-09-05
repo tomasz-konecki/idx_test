@@ -1,72 +1,76 @@
 import axios from "axios"
 import auth from "./auth"
+import cloud from "./cloud"
 
 class IDTServers {
-  get() {
-    return new Promise((resolve, reject) => {
-      axios("http://intevi.chmura:1337/users/me", {
-        headers: auth.getHeaders()
-      })
-        .then(response => {
-          resolve(response.data.idtservers)
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  }
+  get = () =>
+    console.log("IDT servers") ||
+    cloud.sendApiRequest("get", "idtservers", undefined, {}, d => d.data)
 
-  add(productkey, name) {
-    return axios.post(
-      "http://intevi.chmura:1337/idtservers",
-      {
-        productkey,
-        name
-      },
-      {
-        headers: auth.getHeaders()
-      }
-    )
-  }
+  add = (productKey, name) => cloud.sendForm("idtservers", { productKey, name })
 
-  async setCurrentAlert(alertId, serverProductkey) {
+  select = productkey => (this.selected = productkey)
+
+  getSelected = () => this.selected
+
+  setCurrentAlert = async (alertId, serverProductkey) => {
     serverProductkey = serverProductkey || this.getSelected()
     if (!serverProductkey) throw Error("No productkey passed or selected.")
     let servers = await this.get()
     let currentServer = servers.filter(
-      s => s.productkey === serverProductkey
+      s => s.productKey === serverProductkey
     )[0]
     let serverId = currentServer._id
     alertId = alertId.toString()
 
-    return await axios.put(
-      `http://intevi.chmura:1337/idtservers/${serverId}`,
+    return await this.sendApiRequest(
+      "put",
+      `idtservers/${serverId}`,
       {
         currentAlert: alertId
       },
-      {
-        headers: auth.getHeaders()
-      }
+      auth.headers
     )
   }
 
-  async getCurrentAlert(serverProductkey) {
+  getCurrentAlert = async serverProductkey => {
     serverProductkey = serverProductkey || this.getSelected()
     if (!serverProductkey) throw Error("No productkey passed or selected.")
     let servers = await this.get()
     let currentServer = servers.filter(
-      s => s.productkey === serverProductkey
+      s => s.productKey === serverProductkey
     )[0]
     return currentServer.currentAlert
   }
 
-  select(productkey) {
-    this.selected = productkey
-  }
-
-  getSelected() {
-    return localStorage.getItem("selectedServer")
+  sendApiRequest = (
+    method,
+    path,
+    body,
+    responseTransform,
+    serverProductkey
+  ) => {
+    serverProductkey = serverProductkey || idtservers.getSelected()
+    if (!serverProductkey)
+      return Promise.reject("No product key and no server selected")
+    return new Promise((resolve, reject) => {
+      axios({
+        method,
+        url: `http://intevi.chmura/deviceapi/${path}`,
+        data: body,
+        headers: { productkey: serverProductkey }
+      })
+        .then(response => {
+          let data = response.data
+          if (responseTransform) data = responseTransform(data)
+          resolve(data)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    }, true)
   }
 }
 
-export default new IDTServers()
+const idtservers = new IDTServers()
+export default idtservers

@@ -66,11 +66,11 @@ export default function ServersList(props) {
   const createList = () =>
     props.servers.map(server => {
       const endpointsFlag =
-        props.endpointsShown && server.productkey === currentServer
+        props.endpointsShown && server.productKey === currentServer
 
       const channelsFlag =
         props.channelsShown &&
-        server.productkey === currentServer &&
+        server.productKey === currentServer &&
         !props.loadingChannels
 
       return (
@@ -80,7 +80,7 @@ export default function ServersList(props) {
               <ComputerIcon
                 style={{
                   color:
-                    server.productkey === localStorage.getItem("selectedServer")
+                    server.productKey === localStorage.getItem("selectedServer")
                       ? `#3CB371`
                       : `#999`
                 }}
@@ -103,7 +103,7 @@ export default function ServersList(props) {
                 size={15}
                 opacity={
                   props.loadingEndpoints &&
-                  server.productkey === currentServer &&
+                  server.productKey === currentServer &&
                   props.endpointsShown
                     ? 1
                     : 0
@@ -112,11 +112,11 @@ export default function ServersList(props) {
             </div>
             <Button
               className={classes.buttonDark}
-              onClick={() => handleShowEndpoints(server.productkey)}
+              onClick={() => handleShowEndpoints(server.productKey)}
               style={{
                 textDecoration:
                   !props.loadingEndpoints &&
-                  server.productkey === currentServer &&
+                  server.productKey === currentServer &&
                   props.endpointsShown
                     ? `underline`
                     : `none`
@@ -126,11 +126,11 @@ export default function ServersList(props) {
             </Button>
             <Button
               className={classes.buttonDark}
-              onClick={() => handleShowChannels(server.productkey)}
+              onClick={() => handleShowChannels(server.productKey)}
               style={{
                 textDecoration:
                   !props.loadingChannels &&
-                  server.productkey === currentServer &&
+                  server.productKey === currentServer &&
                   props.channelsShown
                     ? `underline`
                     : `none`
@@ -143,7 +143,7 @@ export default function ServersList(props) {
                 size={15}
                 opacity={
                   props.loadingChannels &&
-                  server.productkey === currentServer &&
+                  server.productKey === currentServer &&
                   props.channelsShown
                     ? 1
                     : 0
@@ -154,13 +154,13 @@ export default function ServersList(props) {
               className={classes.buttonLight}
               onClick={() =>
                 handleSelect(
-                  server.productkey === localStorage.getItem("selectedServer")
+                  server.productKey === localStorage.getItem("selectedServer")
                     ? ""
-                    : server.productkey
+                    : server.productKey
                 )
               }
             >
-              {server.productkey === localStorage.getItem("selectedServer") ? (
+              {server.productKey === localStorage.getItem("selectedServer") ? (
                 <span style={{ color: "#777" }}>Deselect</span>
               ) : (
                 "Select"
