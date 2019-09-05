@@ -10,11 +10,14 @@ export default class Tuners extends React.Component {
   state = {}
 
   render() {
-    const active = localStorage.getItem("selectedServer")
-      ? localStorage.getItem("selectedServer") === ""
-        ? false
-        : true
-      : false
+    const active =
+      typeof window !== `undefined`
+        ? localStorage.getItem("selectedServer")
+          ? localStorage.getItem("selectedServer") === ""
+            ? false
+            : true
+          : false
+        : null
 
     return (
       <Layout>

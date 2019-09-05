@@ -20,7 +20,10 @@ const useStyles = makeStyles(theme => ({
 
 const Header = ({ siteTitle }) => {
   const classes = useStyles()
-  const selectedServer = localStorage.getItem("selectedServer")
+  const selectedServer =
+    typeof window !== `undefined`
+      ? localStorage.getItem("selectedServer")
+      : null
   return (
     <div style={{ width: `100%`, position: `fixed`, zIndex: `10` }}>
       <header style={{ background: `#000`, position: `relative` }}>

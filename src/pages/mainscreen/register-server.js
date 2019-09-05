@@ -79,11 +79,14 @@ export default class RegisterServer extends React.Component {
   }
 
   render() {
-    const active = localStorage.getItem("selectedServer")
-      ? localStorage.getItem("selectedServer") === ""
-        ? false
-        : true
-      : false
+    const active =
+      typeof window !== `undefined`
+        ? localStorage.getItem("selectedServer")
+          ? localStorage.getItem("selectedServer") === ""
+            ? false
+            : true
+          : false
+        : null
 
     const { successFlag, failureFlag } = this.state
 

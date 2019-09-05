@@ -99,11 +99,14 @@ export default class Servers extends React.Component {
   render() {
     const { idtservers } = this.state
 
-    const active = localStorage.getItem("selectedServer")
-      ? localStorage.getItem("selectedServer") === ""
-        ? false
-        : true
-      : false
+    const active =
+      typeof window !== `undefined`
+        ? localStorage.getItem("selectedServer")
+          ? localStorage.getItem("selectedServer") === ""
+            ? false
+            : true
+          : false
+        : null
 
     return (
       <Layout>
