@@ -1,5 +1,6 @@
 import axios from "axios"
 import idtservers from "./idtservers"
+import { v4 as generateUuid } from "uuid"
 
 class Endpoints {
   get(productkey) {
@@ -64,6 +65,31 @@ class Endpoints {
       group.endpoints.push(endpoint)
     }
     return groups
+  }
+
+  addGroup(name, serverProductkey) {
+    serverProductkey = serverProductkey || idtservers.getSelected()
+    if (!serverProductkey)
+      return new Promise((resolve, reject) =>
+        reject("No product key and no server selected")
+      )
+    return axios.post(
+      "http://intevi.chmura/deviceapi/endpointgroups/add",
+      {
+        name,
+        id: generateUuid(),
+        pin: Math.random()
+          .toString()
+          .slice(2, 7),
+        channelids: [],
+        defaultchannel: "",
+        defaulttemplate: "",
+        templateids: ""
+      },
+      {
+        headers: { productkey: serverProductkey }
+      }
+    )
   }
 }
 

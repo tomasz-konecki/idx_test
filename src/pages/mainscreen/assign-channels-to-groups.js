@@ -72,7 +72,10 @@ export default class AssignChannelsToGroups extends React.Component {
         let groupIndex = this.state.channelsList[channelIndex].group.findIndex(
           g => g.id === groupId
         )
-        this.state.channelsList[channelIndex].group[groupIndex].available = true
+
+        let channelListCopy = this.state.channelList
+        channelListCopy[channelIndex].group[groupIndex].available = true
+        this.setState({ channelList: channelListCopy })
       })
       .catch(error => {})
       .finally(() =>
@@ -94,9 +97,10 @@ export default class AssignChannelsToGroups extends React.Component {
         let groupIndex = this.state.channelsList[channelIndex].group.findIndex(
           g => g.id === groupId
         )
-        this.state.channelsList[channelIndex].group[
-          groupIndex
-        ].available = false
+
+        let channelListCopy = this.state.channelList
+        channelListCopy[channelIndex].group[groupIndex].available = false
+        this.setState({ channelList: channelListCopy })
       })
       .catch(error => {
         alert(error)
@@ -108,7 +112,7 @@ export default class AssignChannelsToGroups extends React.Component {
       )
   }
 
-  renderTableCell(channel, group) {
+  renderTableCell = (channel, group) => {
     return (
       <TableCell
         key={`${channel.id}x${group.id}`}

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import PrivateRoute from "../../components/authenticated/PrivateRoute"
 
 import LoginPage from "../auth/login"
-import Home from "../home/home"
+// import Home from "../home/home"
 import Dashborad from "../mainscreen/dashboard"
 import Servers from "../mainscreen/servers"
 import RegisterServer from "../mainscreen/register-server"
@@ -13,6 +13,7 @@ import AssignChannelsToGroups from "../mainscreen/assign-channels-to-groups"
 import ChannelSelection from "../mainscreen/channel-selection"
 import Alerts from "../mainscreen/alerts"
 import AssignTemplatesToGroups from "../mainscreen/assign-templates-to-groups"
+import AssignEndpointsToGroups from "../mainscreen/assign-endpoints-to-groups"
 // import { borderColor } from "@material-ui/system"
 // import { Cookies } from "react-cookie"
 // const cookies = new Cookies()
@@ -24,13 +25,14 @@ class App extends Component {
 
   componentDidMount() {
     localStorage.clear()
+    this.forceUpdate()
   }
 
   render() {
     return (
       <Router>
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={Dashborad} />
           <Route
             path="/auth/login"
             render={props => <LoginPage {...props} />}
@@ -58,6 +60,10 @@ class App extends Component {
           <PrivateRoute
             path="/mainscreen/assign-templates-to-groups"
             component={AssignTemplatesToGroups}
+          />
+          <PrivateRoute
+            path="/mainscreen/assign-endpoints-to-groups"
+            component={AssignEndpointsToGroups}
           />
         </Switch>
       </Router>
