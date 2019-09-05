@@ -7,7 +7,6 @@ import LogoIDX from "../../assets/img/logo-idx.png"
 import { pageStyles } from "../../data/styles"
 
 export default function Dashboard(props) {
-  console.log("DASHBOARD PROPS:", props)
   return (
     <Layout>
       <SEO title="Dashboard" />

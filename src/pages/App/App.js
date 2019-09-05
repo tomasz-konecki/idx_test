@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+// import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { Router } from "@reach/router"
 import PrivateRoute from "../../components/authenticated/PrivateRoute"
 
 import LoginPage from "../auth/login"
@@ -29,24 +30,17 @@ class App extends Component {
   }
 
   render() {
+    console.log("RENDER >>>", PrivateRoute)
     return (
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route
-            path="/auth/login"
-            render={props => <LoginPage {...props} />}
-          />
+      <>
+        <Router>
           <PrivateRoute path="/mainscreen/dashboard" component={Dashborad} />
           <PrivateRoute path="/mainscreen/servers" component={Servers} />
           <PrivateRoute
             path="/mainscreen/register-server"
             component={RegisterServer}
           />
-          <PrivateRoute
-            path="/mainscreen/endpoints"
-            render={props => <Endpoints {...this.state} />}
-          />
+          <PrivateRoute path="/mainscreen/endpoints" component={Endpoints} />
           <PrivateRoute path="/mainscreen/tuners" component={Tuners} />
           <PrivateRoute
             path="/mainscreen/assign-channels-to-groups"
@@ -65,8 +59,10 @@ class App extends Component {
             path="/mainscreen/assign-endpoints-to-groups"
             component={AssignEndpointsToGroups}
           />
-        </Switch>
-      </Router>
+          <Home path="/" exact />
+          <LoginPage path="/auth/login" />
+        </Router>
+      </>
     )
   }
 }

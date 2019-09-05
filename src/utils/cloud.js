@@ -12,7 +12,6 @@ class _Cloud {
       })
         .then(response => {
           let data = response.data
-          console.log("Cloud sendRequest", data)
           if (responseTransform) resolve(responseTransform(data))
           else resolve(data)
         })

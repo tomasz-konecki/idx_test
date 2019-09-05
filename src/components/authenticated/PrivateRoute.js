@@ -1,16 +1,21 @@
-import React from "react"
-import { Route } from "react-router-dom"
-import PrivateComponent from "./PrivateComponent"
+import React, { Component } from "react"
+import { navigate } from "gatsby"
+import auth from "../../utils/auth"
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props => {
-        return <PrivateComponent {...props} component={Component} />
-      }}
-    />
-  )
+export default class PrivateRoute extends Component {
+  componentDidMount() {
+    console.log(">>> PrivateRoute, CDM")
+    const { location } = this.props
+    let noOnLoginPage = location.pathname !== `/auth/login`
+    if (!auth.isLoggedIn() && noOnLoginPage) {
+      navigate("/auth/login")
+      return null
+    }
+  }
+
+  render() {
+    console.log(">>> PrivateRoute, Render")
+    const { component: Component, ...rest } = this.props
+    return <Component {...rest} />
+  }
 }
-
-export default PrivateRoute
