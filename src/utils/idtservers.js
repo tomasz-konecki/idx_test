@@ -4,7 +4,6 @@ import cloud from "./cloud"
 
 class IDTServers {
   get = () =>
-    console.log("IDT servers") ||
     cloud.sendApiRequest("get", "idtservers", undefined, {}, d => d.data)
 
   add = (productKey, name) => cloud.sendForm("idtservers", { productKey, name })

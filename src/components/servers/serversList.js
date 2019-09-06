@@ -74,7 +74,7 @@ export default function ServersList(props) {
         !props.loadingChannels
 
       return (
-        <div key={server._id}>
+        <div key={server.id}>
           <ListItem className={classes.listItem}>
             <ListItemIcon>
               <ComputerIcon
